@@ -30,7 +30,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: malta
+      POSTGRES_DB: ghostrider
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
     volumes:
