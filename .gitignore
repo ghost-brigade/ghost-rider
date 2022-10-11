@@ -1,0 +1,19 @@
+node_modules
+coverage
+tmp
+
+.data
+.cache
+.docker
+
+.env
+.env.test
+.env.prod
+
+.DS_Store
+*.tmp
+
+# IDE #
+.vscode
+.idea
+

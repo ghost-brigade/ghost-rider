@@ -1,0 +1,11 @@
+{
+    "transform": {},
+    "verbose": true,
+    "errorOnDeprecated": true,
+    "coverageProvider": "c8",
+    "coverageDirectory": "coverage",
+    "reporters": [
+        "default",
+        ["jest-slow-test-reporter", {"numTests": "3", "warnOnSlowerThan": "50", "color": false}]
+    ]
+}

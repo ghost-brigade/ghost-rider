@@ -1,0 +1,32 @@
+{
+  "name": "@ghost-brigade/ghost-rider",
+  "version": "0.0.1",
+  "description": "ghost rider app",
+  "private": true,
+  "license": "MIT",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "dev": "nodemon",
+    "lint": "eslint '**/*.{js,mjs}' --fix",
+    "test": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --passWithNoTests",
+    "cover": "c8 --reporter html npm test"
+  },
+  "devDependencies": {
+    "c8": "^7.12.0",
+    "eslint": "^8.20.0",
+    "eslint-plugin-eslint-plugin": "^5.0.1",
+    "eslint-plugin-jest": "^26.7.0",
+    "jest": "^28.1.3",
+    "jest-slow-test-reporter": "^1.0.0",
+    "nodemon": "^2.0.19",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "validate-branch-name": "^1.3.0"
+  },
+  "dependencies": {}
+}

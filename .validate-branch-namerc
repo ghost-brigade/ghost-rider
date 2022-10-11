@@ -1,0 +1,4 @@
+{
+    "pattern": "^(master|dev|prod|production){1}$|^(feature|feat|fix|hotfix|release|rel|chore)\/.+$",
+    "errorMsg": "Branch name format : <type>/<name> (type : feature, feat, fix, hotfix, release, rel, chore)",
+}
