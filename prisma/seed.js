@@ -1,9 +1,10 @@
-import {PrismaClient} from '@prisma/client';
-const prisma = new PrismaClient();
 import bcrypt from 'bcryptjs';
-import env from "../config.js";
+import config from "../config.js";
+import {PrismaClient} from '@prisma/client';
 
-env();
+const prisma = new PrismaClient();
+
+config.env();
 
 async function main() {
     const louis = await prisma.user.upsert({
