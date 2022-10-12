@@ -1,7 +1,7 @@
 import * as Response from "../../../common/service/Http/Response.js";
 import UserRepository from "../repository/UserRepository.js";
 import Controller from "../../../common/controller/Controller.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 class UserControllerRegister extends Controller {
     register = async (req, res) => {
