@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+datasource mongo {
+  provider = "mongodb"
+  url      = env("MONGO_URL")
+}
+
 model User {
   id           Int            @id @default(autoincrement())
   name         String         @db.VarChar(255)
