@@ -1,6 +1,6 @@
-import Repository from "./Repository.js";
+import PrismaRepository from "../../../common/repository/PrismaRepository.js";
 
-class UserRepository extends Repository {
+class UserRepository extends PrismaRepository {
     find = async (id) => {
         let user = await this.prisma.user.findUnique({
             where: {

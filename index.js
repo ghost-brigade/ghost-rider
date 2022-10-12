@@ -1,36 +1,16 @@
-// import Framework from "./src/infrastructure/Framework.js";
+import Express from "./src/httpServer.js";
+import config from "./config.js";
 
-// const framework = new Framework({});
-// framework.start();
+config.env();
 
-// const httpServer = framework.listen();
+Express.start();
+const httpServer = Express.listen();
 
-// process.on(process.env.SIGNAL, () => {
-//     if (httpServer) {
-//         httpServer.close(() => {
-//             console.log('HTTP server closed');
-//             return framework.stop();
-//         });
-//     }
-// });
-
-import express from "express";
-import Router from "./src/routes/index.js";
-import init from "./config.js";
-
-init();
-
-const app = express();
-const port = process.env.PORT;
-
-app.use(Router);
-
-// server.listen(port, () => console.log(`Server Connected to port ${port}`));
-
-app.get("/", async (req, res) => {
-    res.send("Hello World!");
-});
-
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+process.on(process.env.SIGNAL, () => {
+    if (httpServer) {
+        httpServer.close(() => {
+            console.log('HTTP server closed');
+            return httpServer.stop();
+        });
+    }
 });

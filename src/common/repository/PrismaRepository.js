@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client';
 
-class Repository {
+class PrismaRepository {
     constructor() {
         this.prisma = new PrismaClient();
     }
@@ -9,4 +9,4 @@ class Repository {
     }
 }
 
-export default Repository;
+export default PrismaRepository;
