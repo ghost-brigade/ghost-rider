@@ -1,6 +1,6 @@
-import dotenv from "config.js";
+import dotenv from 'dotenv';
 
-const config = () => {
+const init = () => {
     switch (process.env.NODE_ENV) {
         case 'test':
         case 'TEST':
@@ -11,4 +11,4 @@ const config = () => {
     }
 };
 
-export default Object.freeze(config);
+export default init;
