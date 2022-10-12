@@ -1,9 +1,11 @@
-import Controller from "../../../common/controller/Controller.js";
+/**
+ import Controller from "../../../common/controller/Controller.js";
 
-class UserControllerLogin extends Controller {
+ class UserControllerLogin extends Controller {
     // login = async (req, res) => {
     //     // TODO: Implement login
     // };
 }
 
-export default new UserControllerLogin();
+ export default new UserControllerLogin();
+ */
