@@ -13,7 +13,7 @@ async function main() {
         create: {
             email: 'louis@ghostrider.fr',
             name: 'Louis',
-            firstName: 'Moulin',
+            firstname: 'Moulin',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
             isAdmin: true
         }
@@ -25,7 +25,7 @@ async function main() {
         create: {
             email: 'anthony@ghostrider.fr',
             name: 'Anthony',
-            firstName: 'Arjona',
+            firstname: 'Arjona',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
             isAdmin: true
         }
@@ -37,7 +37,7 @@ async function main() {
         create: {
             email: 'maxime@ghostrider.fr',
             name: 'Maxime',
-            firstName: 'Carluer',
+            firstname: 'Carluer',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
             isAdmin: true
         }
@@ -49,7 +49,7 @@ async function main() {
         create: {
             email: 'karl@esgi.fr',
             name: 'Karl',
-            firstName: 'xxx',
+            firstname: 'xxx',
             password: await bcrypt.hash('user', await bcrypt.genSalt()),
             isAdmin: false
         }
@@ -61,7 +61,7 @@ async function main() {
         create: {
             email: 'amine@esgi.fr',
             name: 'Amine',
-            firstName: 'xxx',
+            firstname: 'xxx',
             password: await bcrypt.hash('user', await bcrypt.genSalt()),
             isAdmin: false
         }

@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 class UserControllerRegister extends Controller {
     register = async (req, res) => {
-        if (req.body === undefined || req.body.email === undefined || req.body.password === undefined || req.body.name === undefined || req.body.firstName === undefined) {
+        if (req.body === undefined || req.body.email === undefined || req.body.password === undefined || req.body.name === undefined || req.body.firstname === undefined) {
             return Response.unprocessableEntity(req, res, "Missing parameters");
         }
 
@@ -14,7 +14,7 @@ class UserControllerRegister extends Controller {
                 email: req.body.email,
                 password: await bcrypt.hash(req.body.password, await bcrypt.genSalt()),
                 name: req.body.name,
-                firstName: req.body.firstName
+                firstname: req.body.firstname
             };
 
             const newUser = await UserRepository.create(user);
