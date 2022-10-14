@@ -1,7 +1,14 @@
-import UserRepository from "../../components/user/repository/UserRepository.js";
-import checkToken from "../service/Jwt/JwtValidator.js";
-import * as Response from "../service/Http/Response.js";
+import * as Response from "../../../common/service/Http/Response.js";
+import UserRepository from "../../user/repository/user.repository.js";
+import TokenService from "../service/jwt/token.service.js";
 
+/**
+ * Middleware to check if the user is authenticated
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ * @returns {Promise<*>}
+ */
 const AuthentificationMiddleware = async (req, res, next) => {
     const header = req.headers.authorization;
 
@@ -15,7 +22,7 @@ const AuthentificationMiddleware = async (req, res, next) => {
         return Response.unauthorized(req, res, "Invalid token type");
     }
 
-    const user = await checkToken(token);
+    const user = await TokenService.validate(token);
 
     if (user) {
         try {
