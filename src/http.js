@@ -3,7 +3,7 @@ import process from "node:process";
 import cors from "cors";
 import router from "./routes.js";
 
-class HttpServer {
+class Http {
 
   #middlewares = [
     cors(),
@@ -40,4 +40,4 @@ class HttpServer {
   }
 }
 
-export default new HttpServer;
+export default new Http;
