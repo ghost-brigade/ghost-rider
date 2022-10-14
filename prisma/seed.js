@@ -15,7 +15,7 @@ async function main() {
             name: 'Louis',
             firstName: 'Moulin',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
-            isAdmin: true
+            roles: ['ROLE_ADMIN']
         }
     });
 
@@ -27,7 +27,7 @@ async function main() {
             name: 'Anthony',
             firstName: 'Arjona',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
-            isAdmin: true
+            roles: ['ROLE_ADMIN']
         }
     });
 
@@ -39,7 +39,7 @@ async function main() {
             name: 'Maxime',
             firstName: 'Carluer',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
-            isAdmin: true
+            roles: ['ROLE_ADMIN']
         }
     });
 
@@ -51,7 +51,7 @@ async function main() {
             name: 'Karl',
             firstName: 'xxx',
             password: await bcrypt.hash('user', await bcrypt.genSalt()),
-            isAdmin: false
+            roles: ['ROLE_SELLER']
         }
     });
 
@@ -63,7 +63,7 @@ async function main() {
             name: 'Amine',
             firstName: 'xxx',
             password: await bcrypt.hash('user', await bcrypt.genSalt()),
-            isAdmin: false
+            roles: ['ROLE_USER']
         }
     });
 
