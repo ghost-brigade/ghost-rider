@@ -12,7 +12,7 @@ async function main() {
         update: {},
         create: {
             email: 'louis@ghostrider.fr',
-            name: 'Louis',
+            lastname: 'Louis',
             firstname: 'Moulin',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
             roles: ['ROLE_ADMIN']
@@ -24,7 +24,7 @@ async function main() {
         update: {},
         create: {
             email: 'anthony@ghostrider.fr',
-            name: 'Anthony',
+          lastname: 'Anthony',
             firstname: 'Arjona',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
             roles: ['ROLE_ADMIN']
@@ -36,7 +36,7 @@ async function main() {
         update: {},
         create: {
             email: 'maxime@ghostrider.fr',
-            name: 'Maxime',
+            lastname: 'Maxime',
             firstname: 'Carluer',
             password: await bcrypt.hash('admin', await bcrypt.genSalt()),
             roles: ['ROLE_ADMIN']
@@ -48,7 +48,7 @@ async function main() {
         update: {},
         create: {
             email: 'karl@esgi.fr',
-            name: 'Karl',
+            lastname: 'Karl',
             firstname: 'xxx',
             password: await bcrypt.hash('user', await bcrypt.genSalt()),
             roles: ['ROLE_SELLER']
@@ -60,7 +60,7 @@ async function main() {
         update: {},
         create: {
             email: 'amine@esgi.fr',
-            name: 'Amine',
+            lastname: 'Amine',
             firstname: 'xxx',
             password: await bcrypt.hash('user', await bcrypt.genSalt()),
             roles: ['ROLE_USER']
