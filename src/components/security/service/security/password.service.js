@@ -13,4 +13,4 @@ class PasswordService {
 
 }
 
-export default new PasswordService;
+export default PasswordService;

@@ -8,13 +8,15 @@ class TokenService {
    * @returns {Promise<*>}
    */
   create = async (user) => {
+    if (user.id === undefined || user.email === undefined) {
+      throw new Error("Invalid user no id or email");
+    }
+
     const payload = {
       id: user.id,
       email: user.email,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      roles: user.roles,
     };
+
     return await jwt.sign(payload, process.env.SECRET, {
       expiresIn: "48h",
     });
@@ -31,9 +33,6 @@ class TokenService {
       return {
         id: decoded.id,
         email: decoded.email,
-        name: decoded.firstname,
-        firstname: decoded.lastname,
-        roles: decoded.roles,
       };
     } catch (error) {
       return false;
@@ -41,4 +40,4 @@ class TokenService {
   };
 }
 
-export default new TokenService;
+export default TokenService;

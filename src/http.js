@@ -40,4 +40,4 @@ class Http {
   }
 }
 
-export default new Http;
+export default Http;

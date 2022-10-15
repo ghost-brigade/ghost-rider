@@ -4,6 +4,11 @@ import AuthentificatorService from "../service/security/authentificator.service.
 
 class LoginController extends Controller {
 
+  constructor(props) {
+    super(props);
+    this.authentificatorService = new AuthentificatorService();
+  }
+
   /**
    * Authenticate a user
    * @param {Request} req
@@ -16,7 +21,7 @@ class LoginController extends Controller {
         }
 
         try {
-            const jwtToken = await AuthentificatorService.authenticate(req.body.email, req.body.password);
+            const jwtToken = await this.authentificatorService.authenticate(req.body.email, req.body.password);
 
             return Response.ok(req, res, {'token': jwtToken});
         } catch (err) {
