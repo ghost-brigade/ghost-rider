@@ -4,6 +4,11 @@ import TokenService from "../jwt/token.service.js";
 
 class AuthentificatorService {
 
+  constructor() {
+    this.userRepository = new UserRepository();
+    this.passwordService = new PasswordService();
+    this.tokenService = new TokenService();
+  }
   /**
    * Authenticate a user and return a JWT token
    * @param {string} email
@@ -12,17 +17,16 @@ class AuthentificatorService {
    */
   authenticate = async (email, password) => {
 
-    const user = await UserRepository.findByEmail(email);
+    const user = await this.userRepository.findByEmail(email);
+    const match = await this.passwordService.validate(password, user.password);
 
-    const match = await PasswordService.validate(password, user.password);
     if (match === false) {
       throw new Error('PasswordService or email are incorrect');
-
     }
 
-    return await TokenService.create(user);
+    return await this.tokenService.create(user);
   };
 
 }
 
-export default new AuthentificatorService;
+export default AuthentificatorService;

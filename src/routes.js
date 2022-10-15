@@ -3,12 +3,14 @@ import cors from "cors";
 import * as Response from "./common/service/Http/Response.js";
 import RouterService from "./common/service/router/router.service.js";
 import AuthentificationMiddleware from "./components/security/middleware/authentification.middleware.js";
+
 const router = express.Router();
+const routerService = new RouterService().init();
 
 router.use(express.json());
 router.use(cors({'origin': true, 'credentials': true}));
 
-await RouterService.init().then((routes) => {
+await routerService.then((routes) => {
   for (let [key, route] of Object.entries(routes)) {
     key;
     if (route.auth) {

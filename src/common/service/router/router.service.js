@@ -103,4 +103,4 @@ class RouterService {
   };
 }
 
-export default new RouterService();
+export default RouterService;

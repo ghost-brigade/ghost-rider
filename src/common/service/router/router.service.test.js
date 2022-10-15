@@ -23,13 +23,15 @@ let obj = {
 
 describe('RouterService', () => {
   test('normal execution', async () => {
-    await RouterService.init(currentPath + '/tests/normal_case').then((routes) => {
+    const routerService = new RouterService();
+    await routerService.init(currentPath + '/tests/normal_case').then((routes) => {
       expect(JSON.stringify(routes)).toMatch(JSON.stringify(obj));
     });
   });
 
   test('no default export', async () => {
-    await expect(RouterService.init(currentPath + '/tests/no_default_export')).rejects.toThrow('The file test.routes.js must export a default routes object');
+    const routerService = new RouterService();
+    await expect(routerService.init(currentPath + '/tests/no_default_export')).rejects.toThrow('The file test.routes.js must export a default routes object');
   });
 });
 

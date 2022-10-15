@@ -24,7 +24,8 @@ class UserControllerRegister extends Controller {
                 firstname: req.body.firstname
             };
 
-            const newUser = await UserRepository.create(user);
+            const userRepository = new UserRepository();
+            const newUser = await userRepository.create(user);
 
             return Response.created(req, res, newUser);
         } catch (err) {

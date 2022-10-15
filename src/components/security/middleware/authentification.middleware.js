@@ -22,11 +22,13 @@ const AuthentificationMiddleware = async (req, res, next) => {
         return Response.unauthorized(req, res, "Invalid token type");
     }
 
-    const user = await TokenService.validate(token);
+    const tokenService = new TokenService();
+    const user = await tokenService.validate(token);
 
     if (user) {
         try {
-            req.user = await UserRepository.find(user.id);
+            const userRepository = new UserRepository();
+            req.user = await userRepository.find(user.id);
             next();
         } catch (err) {
             Response.forbidden(req, res);

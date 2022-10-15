@@ -8,28 +8,30 @@ const user = {
   email: 'test@email.fr',
 };
 
+const tokenService = new TokenService();
+
 describe('TokenService', function () {
   it('should create a token', async () => {
-    const token = await TokenService.create(user);
+    const token = await tokenService.create(user);
     console.log(token);
     expect(token).not.toBeNull();
   });
 
   it('should validate a token', async () => {
-    const token = await TokenService.create(user);
-    const decoded = await TokenService.validate(token);
+    const token = await tokenService.create(user);
+    const decoded = await tokenService.validate(token);
     expect(decoded).not.toBeNull();
     expect(decoded).toEqual(user);
   });
 
   it('should not validate a token', async () => {
-    const decoded = await TokenService.validate('test');
+    const decoded = await tokenService.validate('test');
     expect(decoded).toBe(false);
   });
 
   it('create token from invalid user', async () => {
     try {
-      await TokenService.create({});
+      await tokenService.create({});
     } catch (err) {
       expect(err.message).toBe('Invalid user no id or email');
     }

@@ -4,6 +4,10 @@ import Controller from "../../../common/controller/controller.js";
 
 class UserController extends Controller {
 
+  constructor() {
+    super();
+    this.userRepository = new UserRepository();
+  }
   /**
    * Find all users
    * @param {Request} req
@@ -12,7 +16,7 @@ class UserController extends Controller {
    */
   list = async (req, res) => {
     try {
-      const users = await UserRepository.findAll();
+      const users = await this.userRepository.findAll();
 
       return Response.ok(req, res, users);
     } catch (err) {
@@ -32,7 +36,7 @@ class UserController extends Controller {
     }
 
     try {
-      const user = await UserRepository.find(parseInt(req.params.id));
+      const user = await this.userRepository.find(parseInt(req.params.id));
 
       return Response.ok(req, res, user);
     } catch (err) {
