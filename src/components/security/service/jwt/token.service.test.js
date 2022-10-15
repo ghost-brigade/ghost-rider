@@ -13,7 +13,6 @@ const tokenService = new TokenService();
 describe('TokenService', function () {
   it('should create a token', async () => {
     const token = await tokenService.create(user);
-    console.log(token);
     expect(token).not.toBeNull();
   });
 
