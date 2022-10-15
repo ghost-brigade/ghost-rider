@@ -3,7 +3,7 @@ export default {
     path: '/test2',
     method: 'all',
     controller: function () {},
-    auth: false,
-    roles: []
+    roles: [],
+    middlewares: [function () {}]
   }
 };

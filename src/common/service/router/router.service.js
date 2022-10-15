@@ -79,17 +79,6 @@ class RouterService {
       }
 
       /**
-       * By default, if auth is not defined we set it to true to force the authentication
-       */
-      if (value.auth === undefined) {
-        value.auth = true;
-      }
-
-      if (typeof value.auth !== 'boolean') {
-        throw new Error('The auth value of route ' + key + ' must be a boolean');
-      }
-
-      /**
        * By default, if roles is not defined we set it with ROLE_USER role
        */
       if (value.roles === undefined) {
@@ -98,6 +87,14 @@ class RouterService {
 
       if (Array.isArray(value.roles) === false) {
         throw new Error('The roles value of route ' + key + ' must be an array');
+      }
+
+      if (value.middlewares === undefined) {
+        value.middlewares = [];
+      }
+
+      if (Array.isArray(value.middlewares) === false) {
+        throw new Error('The middlewares value of route ' + key + ' must be an array');
       }
     }
   };
