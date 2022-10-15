@@ -3,8 +3,9 @@ import config from "./config.js";
 
 config.env();
 
-Express.start();
-const httpServer = Express.listen();
+const ExpressServer = new Express();
+ExpressServer.start();
+const httpServer = ExpressServer.listen();
 
 process.on(process.env.SIGNAL, () => {
     if (httpServer) {

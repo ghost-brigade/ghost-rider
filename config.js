@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 class config {
-    env = () => {
+    static env = () => {
         switch (process.env.NODE_ENV) {
             case 'test':
             case 'TEST':
@@ -13,4 +13,4 @@ class config {
     };
 }
 
-export default new config;
+export default config;
