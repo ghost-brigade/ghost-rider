@@ -1,68 +1,39 @@
 import PrismaRepository from "../../../common/repository/prisma.repository.js";
+import AntispamService from "../service/antispam/antispam.service.js";
 
-class UserRepository extends PrismaRepository {
-
-  /**
-   * @param {int} id
-   * @returns {Promise<Object>}
-   * @returns {Promise<*>}
-   */
-  find = async (id) => {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: id
-      }
-    });
-
-    if (user === null) {
-      throw new Error('User not found');
-    }
-    return user;
-  };
+class AntispamRepository extends PrismaRepository {
 
   /**
+   * @param {string} ip
    * @param {string} email
    * @returns {Promise<*>}
    */
-  findByEmail = async (email) => {
-    const user = await this.prisma.user.findUnique({
+  async findByIpAddrAndUserEmail(ip, email) {
+    return await this.prisma.antispam.findMany({
       where: {
-        email: email
+        ip: ip,
+        email: email,
+        createdAt: {
+          lte: new Date(new Date().getTime() - 60 * 60 * (AntispamService.SPAM_BAN_TIME * 1000))
+        }
       }
     });
-
-    if (user === null) {
-      throw new Error('User not found');
-    }
-    return user;
-  };
+  }
 
   /**
+   * @param {string} ip
+   * @param {string} email
    * @returns {Promise<*>}
    */
-  findAll = async () => {
-    const users = await this.prisma.user.findMany();
-
-    if (users === null) {
-      throw new Error('Users not found');
-    }
-    return users;
-  };
-
-  /**
-   * @param {Object} user
-   * @returns {Promise<*>}
-   */
-  create = async (user) => {
-    const newUser = await this.prisma.user.create({
-      data: user
+  async create(ip, email) {
+    return await this.prisma.antispam.create({
+      data: {
+        ip: ip,
+        email: email,
+      }
     });
+  }
 
-    if (newUser === null) {
-      throw new Error('User not created');
-    }
-    return newUser;
-  };
 }
 
-export default UserRepository;
+export default AntispamRepository;

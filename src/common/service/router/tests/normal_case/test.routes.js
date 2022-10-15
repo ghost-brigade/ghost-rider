@@ -3,7 +3,6 @@ export default {
     path: '/test',
     method: 'get',
     controller: function () {},
-    auth: true,
-    roles: ['ROLE_USER']
+    roles: ['ROLE_USER'],
   }
 };

@@ -9,15 +9,15 @@ let obj = {
     path: '/test',
     method: 'get',
     controller: function () {},
-    auth: true,
-    roles: ['ROLE_USER']
+    roles: ['ROLE_USER'],
+    middlewares: []
   },
   'test2': {
     path: '/test2',
     method: 'all',
     controller: function () {},
-    auth: false,
-    roles: []
+    roles: [],
+    middlewares: [function () {}]
   }
 };
 
