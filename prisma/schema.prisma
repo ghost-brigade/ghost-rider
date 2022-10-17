@@ -29,6 +29,15 @@ model User {
   Message      Message[]
 }
 
+model Passwordreset {
+  id        Int      @id @default(autoincrement())
+  email     String   @db.VarChar(255)
+  token     String   @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isDeleted Boolean  @default(false)
+}
+
 model Channel {
   id        Int       @id @default(autoincrement())
   name      String    @db.VarChar(255)
