@@ -25,7 +25,7 @@ class AntispamRepository extends PrismaRepository {
    * @param {string} email
    * @returns {Promise<*>}
    */
-  async create(ip, email) {
+  async create({ip, email}) {
     return await this.prisma.antispam.create({
       data: {
         ip: ip,
