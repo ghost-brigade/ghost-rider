@@ -1,6 +1,7 @@
 import * as Response from "../../../common/service/Http/Response.js";
 import UserRepository from "../../user/repository/user.repository.js";
 import TokenService from "../service/jwt/token.service.js";
+import AntispamService from "../service/antispam/antispam.service.js";
 
 /**
  * Middleware to check if the user is authenticated
@@ -31,6 +32,7 @@ const AuthentificationMiddleware = async (req, res, next) => {
             req.user = await userRepository.find(user.id);
             next();
         } catch (err) {
+            await (new AntispamService).createAuthenticationAttemptError(req.body.ip, req.body);
             Response.forbidden(req, res);
         }
     } else {
