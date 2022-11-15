@@ -1,4 +1,5 @@
 import AntispamRepository from "../../repository/antispam.repository.js";
+import BannedException from "../../exception/banned.exception.js";
 
 class AntispamService {
 
@@ -31,9 +32,8 @@ class AntispamService {
    */
   async authorizeAuthenticationRequest(ip, email) {
     const antispam = await this.repository.findByIpAddrAndUserEmail(ip, email);
-
     if (antispam && typeof antispam === 'object' && Object.keys(antispam).length >= AntispamService.SPAM_LIMIT) {
-        throw new Error('Too many authentication attempts');
+        throw new BannedException('You are banned please retry later');
     }
 
     return true;
