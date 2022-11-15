@@ -28,7 +28,7 @@ class PasswordResetRepository extends PrismaRepository {
    * @returns {Promise<*>}
    */
   create = async ({email, token}) => {
-    const resetToken = await this.prisma.user.create({
+    const resetToken = await this.prisma.Passwordreset.create({
       data: {
         email: email,
         token: token
@@ -51,7 +51,7 @@ class PasswordResetRepository extends PrismaRepository {
       throw new Error('Missing parameters');
     }
 
-    const deletedToken = await this.prisma.user.delete({
+    const deletedToken = await this.prisma.Passwordreset.delete({
       where: id !== undefined ? {id: id} : {token: token}
     });
 

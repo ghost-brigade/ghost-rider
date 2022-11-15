@@ -3,6 +3,9 @@ import config from "./config.js";
 
 config.env();
 
+const events = await import("./src/common/events.js");
+events.default.register();
+
 const ExpressServer = new Express();
 ExpressServer.start();
 const httpServer = ExpressServer.listen();

@@ -2,13 +2,15 @@ import * as Response from "../../../common/service/Http/Response.js";
 import Controller from "../../../common/controller/controller.js";
 import PasswordResetRepository from "../repository/passwordReset.repository.js";
 import GenerateResetPasswordTokenService from "../service/security/generateResetPasswordToken.service.js";
-import AntispamService from "../service/antispam/antispam.service.js";
+import UserRepository from "../../user/repository/user.repository.js";
+import emailEvent from "../../email/event/email.event.js";
+import Email from "../../email/Email.js";
 
 class PasswordRequestController extends Controller {
 
   constructor() {
     super();
-    this.userRepository = new PasswordResetRepository();
+    this.userRepository = new UserRepository();
     this.passwordResetRepository = new PasswordResetRepository();
   }
 
@@ -26,21 +28,26 @@ class PasswordRequestController extends Controller {
         return Response.unprocessableEntity(req, res, "Missing Email");
       }
 
-      if (this.userRepository.findByEmail(email) === undefined) {
+      const user = await this.userRepository.findByEmail(email);
+
+      if (user === undefined) {
         return Response.notFound(req, res, "User not found");
       }
-
-      await (new AntispamService).createAuthenticationAttemptError(req.body.ip, req.body);
 
       const token = (new GenerateResetPasswordTokenService()).token;
       await this.passwordResetRepository.create({email, token});
 
-      /**
-       * TODO email the user with the token
-       */
+      emailEvent.emit('send', new Email({
+        to: email,
+        subject: 'Password Reset',
+        template: 'password-reset.html',
+        context: {
+          token: token
+        }
+      }));
 
       return Response.ok(req, res, {
-        message: "A password reset email has been sent to your email address"
+        message: "A reset password email has been sent to your email address"
       });
     } catch (err) {
       return Response.notFound(req, res, err.message);
