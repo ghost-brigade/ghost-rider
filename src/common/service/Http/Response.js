@@ -54,6 +54,19 @@ const deleted = async (req, res, message) => {
     return response;
 };
 
+const internalServerError = async (req, res, message, err) => {
+    if (err && process.env.NODE_ENV === "dev") {
+      message = message + " : " + err;
+      console.log("Error 500 : " + err.message);
+    }
+
+    const response = res.status(500).json({
+        messages: message
+    });
+
+    return response;
+};
+
 export {
     ok,
     created,
@@ -62,5 +75,6 @@ export {
     unauthorized,
     forbidden,
     notFound,
-    deleted
+    deleted,
+    internalServerError
 };
