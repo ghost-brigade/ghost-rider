@@ -18,6 +18,11 @@ class AuthentificatorService {
   authenticate = async (email, password) => {
 
     const user = await this.userRepository.findByEmail(email);
+
+    if (user === undefined) {
+      throw new Error("User with this email not found");
+    }
+
     const match = await this.passwordService.validate(password, user.password);
 
     if (match === false) {

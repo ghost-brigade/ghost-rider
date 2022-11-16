@@ -22,6 +22,10 @@ class ChangePasswordController extends Controller {
    * @returns {Promise<*>}
    */
   changePassword = async (req, res) => {
+    if (req.body === undefined || req.body.token === undefined || req.body.password === undefined) {
+      return Response.unprocessableEntity(req, res, "Missing parameters");
+    }
+
     try {
       const {token, password} = req.body;
 
@@ -34,7 +38,7 @@ class ChangePasswordController extends Controller {
       }
 
       const passwordReset = await this.passwordResetRepository.find({token});
-      if (passwordReset === undefined) {
+      if (passwordReset === null) {
         return Response.notFound(req, res, "Token not found");
       }
 
@@ -44,7 +48,7 @@ class ChangePasswordController extends Controller {
       }
 
       const user = await this.userRepository.findByEmail(passwordReset.email);
-      if (user === undefined) {
+      if (user === null) {
         return Response.notFound(req, res, "User not found");
       }
 
