@@ -30,7 +30,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: malta
+      POSTGRES_DB: ghostrider
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
     volumes:
@@ -49,6 +49,14 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
+
+  mailer:
+    image: schickling/mailcatcher
+    restart: unless-stopped
+    ports:
+      - 1025:1025
+      - 8082:1080
+
 
 volumes:
   postgres:

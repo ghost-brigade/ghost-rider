@@ -1,15 +1,20 @@
-import Framework from "./src/infrastructure/Framework.js";
+import Express from "./src/http.js";
+import config from "./config.js";
 
-const framework = new Framework({});
-framework.start();
+config.env();
 
-const httpServer = framework.listen();
+const events = await import("./src/common/events.js");
+events.default.register();
+
+const ExpressServer = new Express();
+ExpressServer.start();
+const httpServer = ExpressServer.listen();
 
 process.on(process.env.SIGNAL, () => {
     if (httpServer) {
         httpServer.close(() => {
             console.log('HTTP server closed');
-            return framework.stop();
+            return httpServer.stop();
         });
     }
 });
