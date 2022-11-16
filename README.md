@@ -1,5 +1,7 @@
 # Ghost Rider
 
+[![codecov](https://codecov.io/gh/ghost-brigade/ghost-riders/branch/master/graph/badge.svg?token=izZSSrNocB)](https://codecov.io/gh/ghost-brigade/ghost-riders)
+
 ## How to use
 
 Copy .env.example to .env
