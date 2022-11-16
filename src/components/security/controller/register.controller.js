@@ -5,6 +5,7 @@ import PasswordService from "../service/security/password.service.js";
 import emailEvent from "../../email/event/email.event.js";
 import Email from "../../email/email.js";
 import UserRegistrationTokenService from "../service/security/userRegistrationToken.service.js";
+import Url from "../../../common/service/Http/Url.js";
 
 class UserControllerRegister extends Controller {
 
@@ -20,16 +21,16 @@ class UserControllerRegister extends Controller {
    * @returns {Promise<*>}
    */
   register = async (req, res) => {
-    if (req.body === undefined || req.body.email === undefined || req.body.password === undefined || req.body.name === undefined || req.body.firstname === undefined) {
+    if (req.body === undefined || req.body.email === undefined || req.body.password === undefined || req.body.lastname === undefined || req.body.firstname === undefined) {
       return Response.unprocessableEntity(req, res, "Missing parameters");
     }
 
-    const {email, password, name, firstname} = req.body;
+    const {email, password, lastname, firstname} = req.body;
 
-    try {
-      await this.userRepository.findByEmail(email);
-    } catch (e) {
-      return Response.unprocessableEntity(req, res, "Email already used");
+    const match = await this.userRepository.findByEmail(email);
+
+    if (match) {
+      return Response.unprocessableEntity(req, res, "User with this email address already exists");
     }
 
     const passwordService = new PasswordService();
@@ -38,8 +39,9 @@ class UserControllerRegister extends Controller {
       const user = {
         email: email,
         password: await passwordService.hash(password),
-        name: name,
-        firstname: firstname
+        lastname: lastname,
+        firstname: firstname,
+        roles: ["ROLE_USER"]
       };
 
       const newUser = await this.userRepository.create(user);
@@ -51,11 +53,13 @@ class UserControllerRegister extends Controller {
         subject: "Confirmation de votre compte",
         template: "confirm-account",
         context: {
-          name: newUser.name,
+          lastname: newUser.lastname,
           app_name: "Ghost rider",
-          link: req.url + "/register/confirm/" + token
+          link: Url.getBaseUrl(req) + "/register/confirm/" + token
         }})
       );
+
+      console.log(Url.getBaseUrl(req) + "/register/confirm/" + token);
 
       return Response.created(req, res, newUser);
     } catch (err) {
@@ -63,13 +67,27 @@ class UserControllerRegister extends Controller {
     }
   };
 
-  //TODO : confirm account controller with token function from service/security/userRegistrationToken.service.js
-  /*
-        const userRegistrationTokenService = new UserRegistrationTokenService(email);
+  confirm = async (req, res) => {
+    if (req.body === undefined || req.body.email === undefined || req.body.token === undefined) {
+      return Response.unprocessableEntity(req, res, "Missing parameters");
+    }
 
-        generate token with : await userRegistrationTokenService.generate();
-        verify token with : await userRegistrationTokenService.verify(token);
-   */
+    const {email, token} = req.body;
+
+    const user = await this.userRepository.findByEmail(email);
+    if (user === null) {
+      return Response.unprocessableEntity(req, res, "User with this email address does not exists");
+    }
+
+    const userRegistrationTokenService = new UserRegistrationTokenService(email);
+    const isTokenValid = await userRegistrationTokenService.verify(token);
+
+    if (isTokenValid) {
+      user.isActive = true;
+      await this.userRepository.update({id: user.id}, user);
+      return Response.ok(req, res, "Account confirmed, please login to continue");
+    }
+  };
 
   //TODO : test registration
 }
