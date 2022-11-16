@@ -2,6 +2,10 @@ import * as Response from "../../../common/service/Http/Response.js";
 import Controller from "../../../common/controller/controller.js";
 import UserRepository from "../../user/repository/user.repository.js";
 import PasswordResetRepository from "../repository/passwordReset.repository.js";
+import PasswordService from "../service/security/password.service.js";
+import emailEvent from "../../email/event/email.event.js";
+import Email from "../../email/email.js";
+import TokenValidityService from "../service/token/tokenValidity.service.js";
 
 class ChangePasswordController extends Controller {
 
@@ -11,28 +15,56 @@ class ChangePasswordController extends Controller {
     this.passwordResetRepository = new PasswordResetRepository();
   }
 
+  /**
+   * Change a password
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Promise<*>}
+   */
   changePassword = async (req, res) => {
-
-    const {password, token} = req.body;
-
-    if (password === undefined || token === undefined) {
-      return Response.unprocessableEntity(req, res, "Missing parameters");
-    }
-
     try {
-      const passwordReset = await this.passwordResetRepository.find({token: token});
-      try {
-        await this.passwordResetRepository.delete({token: token});
-        const user = await this.userRepository.update(
-          {email: passwordReset.email},
-          {password: password}
-        );
-        return Response.ok(req, res, user);
-      } catch (err) {
-        return Response.error(req, res, err.message);
+      const {token, password} = req.body;
+
+      if (token === undefined) {
+        return Response.unprocessableEntity(req, res, "Missing Token");
       }
+
+      if (password === undefined) {
+        return Response.unprocessableEntity(req, res, "Missing Password");
+      }
+
+      const passwordReset = await this.passwordResetRepository.find({token});
+      if (passwordReset === undefined) {
+        return Response.notFound(req, res, "Token not found");
+      }
+
+      const tokenService = new TokenValidityService(passwordReset);
+      if (tokenService.isValid() === false) {
+        return Response.unprocessableEntity(req, res, "Token is expired");
+      }
+
+      const user = await this.userRepository.findByEmail(passwordReset.email);
+      if (user === undefined) {
+        return Response.notFound(req, res, "User not found");
+      }
+
+      const passwordService = new PasswordService();
+      user.password = await passwordService.hash(password);
+      await this.userRepository.update({id: user.id}, user);
+
+      await this.passwordResetRepository.update({token});
+
+      emailEvent.emit('send', new Email({
+        to: user.email,
+        subject: 'Password Changed',
+        template: 'password/password-changed.html'
+      }));
+
+      return Response.ok(req, res, {
+        message: "Password changed successfully"
+      });
     } catch (err) {
-      return Response.unprocessableEntity(req, res, err.message);
+      return Response.internalServerError(req, res, err.message);
     }
   };
 }

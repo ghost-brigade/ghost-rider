@@ -13,8 +13,10 @@ class PasswordResetRepository extends PrismaRepository {
       throw new Error('Missing parameters');
     }
 
-    const resetToken = await this.prisma.Passwordreset.findUnique({
-      where: id !== undefined ? {id: id} : {token: token}
+    const resetToken = await this.prisma.Passwordreset.findFirst({
+      where: {
+        AND : [id !== undefined ? {id: id, isDeleted: false} : {token: token, isDeleted: false}]
+      }
     });
 
     if (resetToken === null) {
@@ -46,13 +48,16 @@ class PasswordResetRepository extends PrismaRepository {
    * @param {string} token
    * @returns {Promise<*>}
    */
-  delete = async ({id, token}) => {
+  update = async ({id, token}) => {
     if (id !== undefined && token !== undefined) {
       throw new Error('Missing parameters');
     }
 
-    const deletedToken = await this.prisma.Passwordreset.delete({
-      where: id !== undefined ? {id: id} : {token: token}
+    const deletedToken = await this.prisma.Passwordreset.update({
+      where: id !== undefined ? {id: id} : {token: token},
+      data: {
+        isDeleted: true
+      }
     });
 
     if (deletedToken === null) {
