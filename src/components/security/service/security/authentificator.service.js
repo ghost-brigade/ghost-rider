@@ -21,7 +21,11 @@ class AuthentificatorService {
     const match = await this.passwordService.validate(password, user.password);
 
     if (match === false) {
-      throw new Error('PasswordService or email are incorrect');
+      throw new Error('email or password are incorrect');
+    }
+
+    if (user.isActive === false) {
+      throw new Error("You're account is not active");
     }
 
     return await this.tokenService.create(user);
