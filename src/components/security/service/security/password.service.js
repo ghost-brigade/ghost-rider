@@ -11,6 +11,10 @@ class PasswordService {
     return await bcryptjs.compare(password, passwordToCompare);
   };
 
+  hash = async (password) => {
+    return await bcryptjs.hash(password, await bcryptjs.genSalt());
+  };
+
 }
 
 export default PasswordService;

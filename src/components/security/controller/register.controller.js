@@ -1,7 +1,7 @@
 import * as Response from "../../../common/service/Http/Response.js";
 import UserRepository from "../../user/repository/user.repository.js";
 import Controller from "../../../common/controller/controller.js";
-import bcrypt from "bcryptjs";
+import PasswordService from "../service/security/password.service.js";
 
 class UserControllerRegister extends Controller {
 
@@ -16,10 +16,12 @@ class UserControllerRegister extends Controller {
             return Response.unprocessableEntity(req, res, "Missing parameters");
         }
 
+        const passwordService = new PasswordService();
+
         try {
             const user = {
                 email: req.body.email,
-                password: await bcrypt.hash(req.body.password, await bcrypt.genSalt()),
+                password: await passwordService.hash(req.body.password),
                 name: req.body.name,
                 firstname: req.body.firstname
             };

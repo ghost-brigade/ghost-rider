@@ -14,7 +14,7 @@ export default {
   },
   'user_get': {
     path: slug + ':id',
-    method: 'post',
+    method: 'get',
     controller: UserController.get,
     roles: ['ROLE_USER'],
     middlewares: [AuthentificationMiddleware]

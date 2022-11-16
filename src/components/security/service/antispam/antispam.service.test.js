@@ -49,7 +49,7 @@ describe('AntispamService', function () {
       });
 
       const antispamService = new AntispamService(antispamRepository);
-      await expect(antispamService.authorizeAuthenticationRequest(ip, email)).rejects.toThrow('Too many authentication attempts');
+      await expect(antispamService.authorizeAuthenticationRequest(ip, email)).rejects.toThrow('You are banned please retry later');
   });
 
   it('should create antispam', async () => {

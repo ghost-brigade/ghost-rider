@@ -59,10 +59,32 @@ class UserRepository extends PrismaRepository {
     });
 
     if (newUser === null) {
-      throw new Error('User not created');
+      throw new Error('An error occurred while creating the user');
     }
     return newUser;
   };
+
+  /**
+   * @param {int} id
+   * @param {String} email
+   * @param {Object} user
+   */
+  update = async ({id, email}, user) => {
+    if (id === undefined && email === undefined) {
+      throw new Error('Missing parameters');
+    }
+
+    const updatedUser = await this.prisma.user.update({
+      where: id !== undefined ? {id: id} : {email: email},
+      data: user
+    });
+
+    if (updatedUser === null) {
+      throw new Error('An error occurred while updating the user');
+    }
+    return updatedUser;
+  };
+
 }
 
 export default UserRepository;

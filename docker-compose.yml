@@ -50,6 +50,14 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
 
+  mailer:
+    image: schickling/mailcatcher
+    restart: unless-stopped
+    ports:
+      - 1025:1025
+      - 8082:1080
+
+
 volumes:
   postgres:
   mongo:
