@@ -25,28 +25,18 @@ class UserRepository extends PrismaRepository {
    * @returns {Promise<*>}
    */
   findByEmail = async (email) => {
-    const user = await this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: {
         email: email
       }
     });
-
-    if (user === null) {
-      throw new Error('User not found');
-    }
-    return user;
   };
 
   /**
    * @returns {Promise<*>}
    */
   findAll = async () => {
-    const users = await this.prisma.user.findMany();
-
-    if (users === null) {
-      throw new Error('Users not found');
-    }
-    return users;
+    return await this.prisma.user.findMany();
   };
 
   /**

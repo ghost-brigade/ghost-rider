@@ -22,47 +22,48 @@ class PasswordRequestController extends Controller {
    * @returns {Promise<*>}
    */
   request = async (req, res) => {
-    try {
-      const {email} = req.body;
-
-      if (email === undefined) {
-        return Response.unprocessableEntity(req, res, "Missing Email");
-      }
-
-      const user = await this.userRepository.findByEmail(email);
-
-      if (user === undefined) {
-        return Response.notFound(req, res, "User not found");
-      }
-
-      /* find last password reset request for this user */
-      const lastPasswordResetRequest = await this.passwordResetRepository.findLastByUserId(user.email);
-      if (lastPasswordResetRequest !== undefined) {
-        const tokenValidityService = new TokenValidityService(lastPasswordResetRequest);
-
-        if (tokenValidityService.isAuthorizedToRequest() === false) {
-          return Response.unprocessableEntity(req, res, "Password reset request already sent");
-        }
-      }
-
-      const token = (new GenerateResetPasswordTokenService()).token;
-      await this.passwordResetRepository.create({email, token});
-
-      emailEvent.emit('send', new Email({
-        to: email,
-        subject: 'Password Reset',
-        template: 'password/password-reset.html',
-        context: {
-          token: token
-        }
-      }));
-
-      return Response.ok(req, res, {
-        message: "A reset password email has been sent to your email address"
-      });
-    } catch (err) {
-      return Response.notFound(req, res, err.message);
+    if (req.body === undefined || req.body.email === undefined) {
+      return Response.unprocessableEntity(req, res, "Missing parameters");
     }
+
+    const {email} = req.body;
+
+    if (email === undefined) {
+      return Response.unprocessableEntity(req, res, "Missing Email");
+    }
+
+    const user = await this.userRepository.findByEmail(email);
+
+    if (user === null) {
+      return Response.notFound(req, res, "User not found");
+    }
+
+    /* find last password reset request for this user */
+    const lastPasswordResetRequest = await this.passwordResetRepository.findLastByUserId(user.email);
+
+    if (lastPasswordResetRequest !== null) {
+      const tokenValidityService = new TokenValidityService(lastPasswordResetRequest);
+
+      if (tokenValidityService.isAuthorizedToRequest() === false) {
+        return Response.unprocessableEntity(req, res, "Password reset request already sent");
+      }
+    }
+
+    const token = (new GenerateResetPasswordTokenService()).token;
+    await this.passwordResetRepository.create({email, token});
+
+    emailEvent.emit('send', new Email({
+      to: email,
+      subject: 'Password Reset',
+      template: 'password/password-reset.html',
+      context: {
+        token: token
+      }
+    }));
+
+    return Response.ok(req, res, {
+      message: "A reset password email has been sent to your email address"
+    });
   };
 }
 

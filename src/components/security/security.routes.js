@@ -7,6 +7,12 @@ import changePasswordController from "./controller/changePassword.controller.js"
 const slug = "/";
 
 export default {
+  'security_register_confirm': {
+    path: slug + 'register/confirm',
+    method: 'post',
+    controller: RegisterController.confirm,
+    roles: [],
+  },
   'security_register': {
     path: slug + 'register',
     method: 'post',

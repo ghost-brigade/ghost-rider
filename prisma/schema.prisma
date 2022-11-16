@@ -21,6 +21,7 @@ model User {
   firstname    String         @db.VarChar(255)
   email        String         @unique @db.VarChar(255)
   password     String         @db.VarChar(255)
+  isActive     Boolean        @default(false)
   roles        String[]
   Notification Notification[]
   createdAt    DateTime       @default(now())
