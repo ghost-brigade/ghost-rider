@@ -8,7 +8,6 @@ export default {
     path: slug,
     method: 'get',
     controller: UserController.list,
-    auth: true,
     roles: ['ROLE_USER'],
     middlewares: [AuthentificationMiddleware]
   },
