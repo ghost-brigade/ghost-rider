@@ -1,6 +1,6 @@
 import {EventEmitter} from 'node:events';
 import transporter from "../service/nodemailer.js";
-import Email from "../Email.js";
+import Email from "../email.js";
 
 class EmailEvent extends EventEmitter {}
 

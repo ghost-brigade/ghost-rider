@@ -14,7 +14,7 @@ class Email {
     this.#from = from ?? process.env.EMAIL_FROM;
     this.#to = to;
     this.#subject = subject;
-    this.#context = context;
+    this.#context = context ?? {};
 
     this.#template = template;
     if (this.#template.includes('.html') === false) {
