@@ -10,11 +10,13 @@ router.use(express.json());
 router.use(cors({'origin': true, 'credentials': true}));
 
 await routerService.then((routes) => {
+  if (process.env.NODE_ENV === 'dev') {console.log('\n====== ROUTER DEBUG ======');}
   for (let [key, route] of Object.entries(routes)) {
     key;
     router[route.method](route.path, route.middlewares, route.controller);
-    //console.log(`Route ${route.method.toUpperCase()} ${route.path} loaded`);
+    if (process.env.NODE_ENV === 'dev') {console.log(`Route ${route.method.toUpperCase()} ${route.path} loaded`);}
   }
+  if (process.env.NODE_ENV === 'dev') {console.log('======== ====== ========\n');}
 });
 
 router.use('*', async (req, res) => {
