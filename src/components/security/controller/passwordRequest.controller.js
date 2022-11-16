@@ -5,6 +5,7 @@ import GenerateResetPasswordTokenService from "../service/security/generateReset
 import UserRepository from "../../user/repository/user.repository.js";
 import emailEvent from "../../email/event/email.event.js";
 import Email from "../../email/email.js";
+import TokenValidityService from "../service/token/tokenValidity.service.js";
 
 class PasswordRequestController extends Controller {
 
@@ -32,6 +33,16 @@ class PasswordRequestController extends Controller {
 
       if (user === undefined) {
         return Response.notFound(req, res, "User not found");
+      }
+
+      /* find last password reset request for this user */
+      const lastPasswordResetRequest = await this.passwordResetRepository.findLastByUserId(user.email);
+      if (lastPasswordResetRequest !== undefined) {
+        const tokenValidityService = new TokenValidityService(lastPasswordResetRequest);
+
+        if (tokenValidityService.isAuthorizedToRequest() === false) {
+          return Response.unprocessableEntity(req, res, "Password reset request already sent");
+        }
       }
 
       const token = (new GenerateResetPasswordTokenService()).token;

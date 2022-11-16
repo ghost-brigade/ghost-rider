@@ -16,6 +16,9 @@ class PasswordResetRepository extends PrismaRepository {
     const resetToken = await this.prisma.Passwordreset.findFirst({
       where: {
         AND : [id !== undefined ? {id: id, isDeleted: false} : {token: token, isDeleted: false}]
+      },
+      orderBy: {
+        createdAt: 'desc'
       }
     });
 
@@ -23,6 +26,23 @@ class PasswordResetRepository extends PrismaRepository {
       throw new Error('Invalid token');
     }
     return resetToken;
+  };
+
+  /**
+   * Find the last password reset request for a user
+   * @param email
+   * @returns {Promise<*>}
+   */
+  findLastByUserId = async (email) => {
+    return await this.prisma.Passwordreset.findFirst({
+      where: {
+        email: email,
+        isDeleted: false
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
   };
 
   /**
