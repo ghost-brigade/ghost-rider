@@ -48,10 +48,8 @@ const notFound = async (req, res, message) => {
     return response;
 };
 
-const deleted = async (req, res, message) => {
-    const response = res.status(200).json(message);
-
-    return response;
+const noContent = async (req, res) => {
+  return res.status(204);
 };
 
 const internalServerError = async (req, res, message, err) => {
@@ -75,6 +73,6 @@ export {
     unauthorized,
     forbidden,
     notFound,
-    deleted,
+    noContent,
     internalServerError
 };
