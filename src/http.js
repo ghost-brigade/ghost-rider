@@ -1,3 +1,4 @@
+import http from "http";
 import express from "express";
 import process from "node:process";
 import cors from "cors";
@@ -12,6 +13,7 @@ class Http {
 
   constructor() {
     this.app = express();
+    this.httpServer = http.createServer(this.app);
   }
 
   async start() {
@@ -30,7 +32,7 @@ class Http {
   }
 
   listen() {
-    return this.app.listen(process.env.PORT, () => {
+    return this.httpServer.listen(process.env.PORT, () => {
       console.log('Server listening on port ' + process.env.PORT);
     });
   }
