@@ -1,5 +1,6 @@
 import Express from "./src/http.js";
 import config from "./config.js";
+import SocketService from "./src/common/service/Socket/socket.service.js";
 
 config.env();
 
@@ -8,7 +9,10 @@ events.default.register();
 
 const ExpressServer = new Express();
 ExpressServer.start();
+
 const httpServer = ExpressServer.listen();
+
+SocketService.init(ExpressServer.httpServer);
 
 process.on(process.env.SIGNAL, () => {
     if (httpServer) {
