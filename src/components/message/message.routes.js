@@ -10,5 +10,12 @@ export default {
     controller: MessageController.add,
     roles: [],
     middlewares: [AuthentificationMiddleware]
+  },
+  'message_list': {
+    path: slug + '/:channelId',
+    method: 'get',
+    controller: MessageController.list,
+    roles: [],
+    middlewares: [AuthentificationMiddleware]
   }
 };

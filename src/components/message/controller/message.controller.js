@@ -1,7 +1,8 @@
 import Controller from "../../../common/controller/controller.js";
 import * as Response from "../../../common/service/Http/response.js";
-import ChannelRepository from "../../channel/repository/channel.repository.js";
 import MessageService from "../service/message.service.js";
+import MessageRepository from "../repository/message.repository.js";
+import ChannelRepository from "../../channel/repository/channel.repository.js";
 
 class MessageController extends Controller {
 
@@ -27,10 +28,37 @@ class MessageController extends Controller {
     try {
       const messageService = new MessageService();
       const newMessage = await messageService.add({message, channelId, user: req.user});
-      return Response.created(req, res, newMessage);
+      return Response.created(req, res, {
+        id: newMessage.id,
+        message: newMessage.message,
+        user: "/user/" + newMessage.userId,
+        channel: "/channel/" + newMessage.channelId,
+        createdAt: newMessage.createdAt,
+        updatedAt: newMessage.updatedAt
+      });
     } catch (e) {
       return Response.internalServerError(req, res, e.message);
     }
+  }
+
+  async list(req, res) {
+    if (req.params === undefined || req.params.channelId === undefined) {
+      return Response.unprocessableEntity(req, res, "Missing channelId parameter");
+    }
+
+    const {channelId} = Number.parseInt(req.params.channelId);
+
+    const messageRepository = new MessageRepository();
+    const messages = await messageRepository.findAllByChannelId(channelId);
+
+    return Response.ok(req, res, messages.map(message => {
+      return {
+        id: message.id,
+        message: message.message,
+        user: "/user/" + message.userId,
+        channel: "/channel/" + message.channelId,
+      };
+    }));
   }
 }
 

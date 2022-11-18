@@ -23,6 +23,20 @@ class MessageRepository extends PrismaRepository {
   };
 
   /**
+   * @returns {Promise<*>}
+   */
+  findAllByChannelId = async (channelId) => {
+    return await this.prisma.message.findMany({
+      where: {
+        channelId: channelId
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+  };
+
+  /**
    * @param {Object} data
    * @returns {Promise<*>}
    */
