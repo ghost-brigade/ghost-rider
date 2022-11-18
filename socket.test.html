@@ -2,4 +2,29 @@
   import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
   const socket = io("ws://localhost");
+
+  socket.on("connect", () => {
+    console.log("connected");
+  });
+
+  socket.on('channel:join:error', (e) => {
+    console.log("error", e);
+  });
+
+  socket.on('channel:join:success', (e) => {
+    console.log("success", e);
+  });
+
+  document.getElementById("join-room-1").addEventListener('click', () => {
+    socket.emit("channel:join", 1);
+  });
+
+  document.getElementById("leave-room-1").addEventListener('click', () => {
+    socket.emit("channel:leave", 1);
+  });
+
 </script>
+
+
+<button id="join-room-1">Join room 1</button>
+<button id="leave-room-1">Leave room 1</button>

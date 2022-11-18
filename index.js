@@ -14,6 +14,9 @@ const httpServer = ExpressServer.listen();
 
 SocketService.init(ExpressServer.httpServer);
 
+const sockets = await import("./src/common/sockets.js");
+sockets.default.register();
+
 process.on(process.env.SIGNAL, () => {
     if (httpServer) {
         httpServer.close(() => {
