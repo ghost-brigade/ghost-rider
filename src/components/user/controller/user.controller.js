@@ -35,8 +35,10 @@ class UserController extends Controller {
       return Response.unprocessableEntity(req, res, "Missing parameters");
     }
 
+    const id = parseInt(req.params.id);
+
     try {
-      const user = await this.userRepository.find(parseInt(req.params.id));
+      const user = await this.userRepository.find(id);
 
       return Response.ok(req, res, user);
     } catch (err) {

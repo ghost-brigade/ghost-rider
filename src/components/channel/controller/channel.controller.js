@@ -27,7 +27,13 @@ class ChannelController extends Controller {
    * @returns {Promise<*>}
    */
   find = async (req, res) => {
-    const channel = await this.repository.find(req.params.id);
+    if (!req.params.id) {
+      return Response.badRequest(req, res, "Missing channel id");
+    }
+
+    const id = parseInt(req.params.id);
+
+    const channel = await this.repository.find(id);
     if (channel === null) {
       return Response.notFound(req, res, "Channel not found");
     }
@@ -67,6 +73,10 @@ class ChannelController extends Controller {
    * @returns {Promise<void>}
    */
   update = async (req, res) => {
+    if (!req.params.id) {
+      return Response.badRequest(req, res, "Missing channel id");
+    }
+
     const id = parseInt(req.params.id);
 
     if (req.body === undefined) {
