@@ -15,6 +15,14 @@
     console.log("success", e);
   });
 
+  socket.on('channel:leave:success', (e) => {
+    console.log("leave", e);
+  });
+
+  socket.on('message:new', (e) => {
+    console.log("message", e);
+  });
+
   document.getElementById("join-room-1").addEventListener('click', () => {
     socket.emit("channel:join", 1);
   });
