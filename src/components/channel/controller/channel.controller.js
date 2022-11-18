@@ -1,6 +1,7 @@
 import Controller from "../../../common/controller/controller.js";
 import * as Response from "../../../common/service/http/response.js";
 import ChannelRepository from "../repository/channel.repository.js";
+import Guard from "../../security/service/security/Guard.js";
 
 class ChannelController extends Controller {
 
@@ -17,7 +18,12 @@ class ChannelController extends Controller {
    */
   findAll = async (req, res) => {
     const channels = await this.repository.findAll();
-    return Response.ok(req, res, channels);
+    return Response.ok(req, res, channels.map(channel => {
+        delete channel.createdAt;
+        delete channel.updatedAt;
+        return channel;
+      })
+    );
   };
 
   /**
@@ -33,7 +39,13 @@ class ChannelController extends Controller {
 
     const id = parseInt(req.params.id);
 
-    const channel = await this.repository.find(id);
+    const channel = await this.repository.find(id).then(channel => {
+      if (Guard.isGranted("ROLE_ADMIN", req.user) === false) {
+        delete channel.createdAt;
+        delete channel.updatedAt;
+        return channel;
+      }
+    });
     if (channel === null) {
       return Response.notFound(req, res, "Channel not found");
     }
