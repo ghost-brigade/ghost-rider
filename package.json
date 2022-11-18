@@ -11,7 +11,8 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "dev": "nodemon",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "eslint '**/*.{js,mjs}' --fix",
     "test": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --passWithNoTests",
     "cover": "c8 --reporter html npm test",
@@ -38,6 +39,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.4.0",
+    "@vitejs/plugin-vue": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -45,6 +47,10 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.4",
     "nodemailer": "^6.8.0",
-    "socket.io": "^4.5.3"
+    "sass": "^1.56.1",
+    "socket.io": "^4.5.3",
+    "vite": "^3.2.4",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   }
 }
