@@ -58,6 +58,8 @@ class ChannelService {
    * @returns {Promise<void>}
    */
   async leave(channelId) {
+    await this.#getChannelFromId(channelId);
+
     if (await this.isUserInChannel()) {
       await this.#socket.leave(this.ROOM_PREFIX + channelId);
       if (process.env.NODE_ENV === 'dev') {
