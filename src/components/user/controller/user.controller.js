@@ -52,16 +52,20 @@ class UserController extends Controller {
     const id = parseInt(req.params.id);
 
     try {
-      const user = await this.userRepository.find(id).then(user => {
-        delete user.password;
-        if (Guard.isGranted(['ROLE_ADMIN'], req.user) === false) {
-          delete user.email;
-          delete user.roles;
-          delete user.isActive;
-          delete user.updatedAt;
-        }
-        return user;
-      });
+      const user = await this.userRepository.find(id);
+
+      if (user === null) {
+        return Response.notFound(req, res, "User not found");
+      }
+
+      delete user.password;
+      if (Guard.isGranted(['ROLE_ADMIN'], req.user) === false) {
+        delete user.email;
+        delete user.roles;
+        delete user.isActive;
+        delete user.updatedAt;
+      }
+
       return Response.ok(req, res, user);
     } catch (err) {
       return Response.notFound(req, res, 'User not found');

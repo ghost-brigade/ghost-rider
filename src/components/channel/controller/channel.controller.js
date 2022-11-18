@@ -39,15 +39,14 @@ class ChannelController extends Controller {
 
     const id = parseInt(req.params.id);
 
-    const channel = await this.repository.find(id).then(channel => {
-      if (Guard.isGranted("ROLE_ADMIN", req.user) === false) {
-        delete channel.createdAt;
-        delete channel.updatedAt;
-        return channel;
-      }
-    });
+    const channel = await this.repository.find(id).then();
     if (channel === null) {
       return Response.notFound(req, res, "Channel not found");
+    }
+
+    if (Guard.isGranted("ROLE_ADMIN", req.user) === false) {
+      delete channel.createdAt;
+      delete channel.updatedAt;
     }
 
     return Response.ok(req, res, channel);
@@ -115,6 +114,34 @@ class ChannelController extends Controller {
     try {
       const updatedChannel = await this.repository.update(id,{name: req.body.name, limit: req.body.limit});
       return Response.ok(req, res, updatedChannel);
+    } catch (e) {
+      return Response.internalServerError(req, res, e.message);
+    }
+  };
+
+  /**
+   * Delete a channel
+   * @param req
+   * @param res
+   * @returns {Promise<*>}
+   */
+  delete = async (req, res) => {
+    if (!req.params.id) {
+      return Response.unprocessableEntity(req, res, "Missing channel id");
+    }
+
+    //todo fix lenteur
+
+    const id = parseInt(req.params.id);
+
+    const channel = await this.repository.find(id);
+    if (channel === null) {
+      return Response.notFound(req, res, "Channel not found");
+    }
+
+    try {
+      await this.repository.delete(id);
+      return Response.noContent(req, res);
     } catch (e) {
       return Response.internalServerError(req, res, e.message);
     }
