@@ -16,4 +16,16 @@ export default {
     controller: ChannelController.find,
     roles: [AuthentificationMiddleware],
   },
+  'channel_post_collection': {
+    path: slug,
+    method: 'post',
+    controller: ChannelController.create,
+    roles: [AuthentificationMiddleware],
+  },
+  'channel_put_item': {
+    path: slug + '/:id',
+    method: 'post',
+    controller: ChannelController.update,
+    roles: [AuthentificationMiddleware],
+  }
 };

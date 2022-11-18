@@ -26,15 +26,41 @@ class ChannelRepository extends PrismaRepository {
    * @param {Object} channel
    * @returns {Promise<*>}
    */
-  create = async (channel) => {
+  create = async ({name, limit}) => {
     const newChannel = await this.prisma.channel.create({
-      data: channel
+      data: {
+        name: name,
+        limit: limit
+      }
     });
 
     if (newChannel === null) {
       throw new Error('An error occurred while creating the user');
     }
     return newChannel;
+  };
+
+  /**
+   * @param {int} id
+   * @param {Object} channel
+   * @returns {Promise<*>}
+   */
+  update = async (id, {name, limit}) => {
+    const data = {};
+    if (name !== undefined) {data.name = name;}
+    if (limit !== undefined) {data.limit = limit;}
+
+    const channel = await this.prisma.channel.update({
+      where: {
+        id: id
+      },
+      data: data
+    });
+
+    if (channel === null) {
+      throw new Error('An error occurred while updating the channel');
+    }
+    return channel;
   };
 
 }
