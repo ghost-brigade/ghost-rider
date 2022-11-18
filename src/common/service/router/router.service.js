@@ -70,7 +70,7 @@ class RouterService {
         throw new Error('The route ' + key + ' must have a method');
       }
 
-      if (['get', 'post', 'all'].includes(value.method.toLowerCase()) === false) {
+      if (['get', 'post', 'put', 'delete', 'all'].includes(value.method.toLowerCase()) === false) {
         throw new Error("The method " + value.method + " is not allowed please use 'get', 'post' or 'all'");
       }
 
