@@ -1,7 +1,11 @@
 <script type="module">
   import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
-  const socket = io("ws://localhost");
+  const socket = io("ws://localhost", {
+    auth: {
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbnRob255QGdob3N0cmlkZXIuZnIiLCJpYXQiOjE2Njg3OTI1OTcsImV4cCI6MTY2ODk2NTM5N30.35-rfnO_-5uFqdy9XHVgal05oWb7dQ2OS4M2GZ4gfxg"
+    }
+  });
 
   socket.on("connect", () => {
     console.log("connected");
