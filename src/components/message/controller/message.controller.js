@@ -3,6 +3,7 @@ import * as Response from "../../../common/service/Http/response.js";
 import MessageService from "../service/message.service.js";
 import MessageRepository from "../repository/message.repository.js";
 import ChannelRepository from "../../channel/repository/channel.repository.js";
+import SocketService from "../../../common/service/Socket/socket.service.js";
 
 class MessageController extends Controller {
 
@@ -28,6 +29,9 @@ class MessageController extends Controller {
     try {
       const messageService = new MessageService();
       const newMessage = await messageService.add({message, channelId, user: req.user});
+
+      SocketService.io.to('channel:' + channelId).emit('message:new', newMessage);
+
       return Response.created(req, res, {
         id: newMessage.id,
         message: newMessage.message,

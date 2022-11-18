@@ -1,5 +1,4 @@
 import MessageRepository from "../repository/message.repository.js";
-import SocketService from "../../../common/service/Socket/socket.service.js";
 
 class MessageService {
 
@@ -24,8 +23,6 @@ class MessageService {
     if (message === null) {
       throw new Error("Message not created");
     }
-
-    SocketService.io.to('channel:' + channelId).emit('message:new', newMessage);
 
     return newMessage;
   }
