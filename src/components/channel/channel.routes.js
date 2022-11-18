@@ -24,8 +24,14 @@ export default {
   },
   'channel_put_item': {
     path: slug + '/:id',
-    method: 'post',
+    method: 'put',
     controller: ChannelController.update,
+    roles: [AuthentificationMiddleware],
+  },
+  'channel_delete_item': {
+    path: slug + '/:id',
+    method: 'delete',
+    controller: ChannelController.delete,
     roles: [AuthentificationMiddleware],
   }
 };

@@ -63,6 +63,22 @@ class ChannelRepository extends PrismaRepository {
     return channel;
   };
 
+  /**
+   * @param {int} id
+   * @returns {Promise<*>}
+   */
+  delete = async (id) => {
+    const deleted = await this.prisma.channel.delete({
+      where: {
+        id: id
+      }
+    });
+
+    if (deleted === false) {
+      throw new Error('An error occurred while deleting the channel');
+    }
+    return deleted;
+  };
 }
 
 export default ChannelRepository;
