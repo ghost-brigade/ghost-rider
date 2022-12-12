@@ -1,5 +1,5 @@
 import Controller from "../../../common/controller/controller.js";
-import * as Response from "../../../common/service/Http/response.js";
+import * as Response from "../../../common/service/Http/Response.js";
 import MessageService from "../service/message.service.js";
 import MessageRepository from "../repository/message.repository.js";
 import ChannelRepository from "../../channel/repository/channel.repository.js";
