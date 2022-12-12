@@ -11,7 +11,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "dev": "vite",
+    "dev": "nodemon & vite",
     "build": "vite build",
     "lint": "eslint '**/*.{js,mjs}' --fix",
     "test": "NODE_ENV=test NODE_OPTIONS='--experimental-vm-modules --no-warnings' jest --passWithNoTests",
@@ -33,12 +33,12 @@
     "jest-slow-test-reporter": "^1.0.0",
     "lint-staged": "^13.0.3",
     "nodemon": "^2.0.19",
-    "prisma": "^4.4.0",
+    "prisma": "^4.7.1",
     "sinon": "^14.0.1",
     "validate-branch-name": "^1.3.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.4.0",
+    "@prisma/client": "^4.7.1",
     "@vitejs/plugin-vue": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

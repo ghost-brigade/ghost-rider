@@ -9,6 +9,7 @@ Copy .env.example to .env
 ```
 make init
 make db
+make run
 ```
 
 ## Prisma
