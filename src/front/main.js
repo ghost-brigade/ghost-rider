@@ -2,8 +2,8 @@ import {createApp} from "vue";
 import App from "./App.vue";
 import {createRouter, createWebHistory} from 'vue-router';
 
-import Home from './shop/views/Home.vue';
-import Contact from './shop/views/Contact.vue';
+import Home from './views/Home.vue';
+import Contact from './views/Contact.vue';
 
 import "./assets/main.scss";
 
