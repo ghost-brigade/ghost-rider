@@ -1,5 +1,42 @@
 <script type="module">
   import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
-  const socket = io("ws://localhost");
+  const socket = io("ws://localhost", {
+    auth: {
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbnRob255QGdob3N0cmlkZXIuZnIiLCJpYXQiOjE2Njg3OTI1OTcsImV4cCI6MTY2ODk2NTM5N30.35-rfnO_-5uFqdy9XHVgal05oWb7dQ2OS4M2GZ4gfxg"
+    }
+  });
+
+  socket.on("connect", () => {
+    console.log("connected");
+  });
+
+  socket.on('channel:join:error', (e) => {
+    console.log("error", e);
+  });
+
+  socket.on('channel:join:success', (e) => {
+    console.log("success", e);
+  });
+
+  socket.on('channel:leave:success', (e) => {
+    console.log("leave", e);
+  });
+
+  socket.on('message:new', (e) => {
+    console.log("message", e);
+  });
+
+  document.getElementById("join-room-1").addEventListener('click', () => {
+    socket.emit("channel:join", 1);
+  });
+
+  document.getElementById("leave-room-1").addEventListener('click', () => {
+    socket.emit("channel:leave", 1);
+  });
+
 </script>
+
+
+<button id="join-room-1">Join room 1</button>
+<button id="leave-room-1">Leave room 1</button>

@@ -24,16 +24,18 @@ const AuthentificationMiddleware = async (req, res, next) => {
   }
 
   const tokenService = new TokenService();
-  const user = await tokenService.validate(token);
-
-  if (user.isActive === false) {
-    return Response.unauthorized(req, res, "You're account is not active");
-  }
+  let user = await tokenService.validate(token);
 
   if (user) {
     try {
       const userRepository = new UserRepository();
-      req.user = await userRepository.find(user.id);
+      user = await userRepository.find(user.id);
+
+      if (user.isActive === false) {
+        return Response.unauthorized(req, res, "You're account is not active");
+      }
+
+      req.user = user;
       next();
     } catch (err) {
       await (new AntispamService).createAuthenticationAttemptError(req.body.ip, req.body);
