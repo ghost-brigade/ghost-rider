@@ -52,13 +52,16 @@ model Channel {
 model Notification {
   id        Int      @id @default(autoincrement())
   title     String   @db.VarChar(255)
-  message   String   @db.VarChar(255)
+  message   String
   isRead    Boolean  @default(false)
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   // isDeleted Boolean  @default(false)
+
+  // Enable real-time subscriptions for the Notification model
+  // @aws_subscribe(mutations: ["*"])
 }
 
 model Message {
