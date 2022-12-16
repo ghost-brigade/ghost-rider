@@ -1,0 +1,115 @@
+[
+  {
+    "node": "root",
+    "name": "Point de départ",
+    "description": "Point de départ de la conversation",
+    "last": false,
+    "choices": [
+      {"node": "vehicle_maintenance"},
+      {"node": "vehicle_information"},
+      {"node": "contact_information"},
+      {"node": "stop"}
+    ]
+  },
+  {
+    "node": "stop",
+    "name": "Stop",
+    "description": "Permet d'arrêter la conversation",
+    "last": true,
+    "choices": []
+  },
+
+  {
+    "node": "vehicle_maintenance",
+    "name": "Entretien du véhicule",
+    "description": "Permet de demander des informations sur l'entretien du véhicule",
+    "last": false,
+    "choices": [
+      {"node": "vehicle_maintenance_year", "type": "date"}
+    ]
+  },
+  {
+    "node": "vehicle_maintenance_year",
+    "name": "Année du véhicule",
+    "description": "Permet de demander l'année du véhicule",
+    "last": false,
+    "choices": [
+      {"node": "vehicle_maintenance_last_date", "type": "date"}
+    ]
+  },
+  {
+    "node": "vehicle_maintenance_last_date",
+    "name": "Date du dernier entretien",
+    "description": "Permet de demander la date du dernier entretien",
+    "last": false,
+    "choices": [
+      {"node": "vehicle-", "type": "date"}
+    ]
+  },
+
+
+  {
+    "node": "vehicle_information",
+    "name": "Informations sur le véhicule",
+    "description": "Permet d'obtenir des informations sur le véhicule",
+    "last": false,
+    "choices": [
+      {"node": "vehicle_information_usage_type_road"},
+      {"node": "vehicle_information_usage_type_off_road"},
+      {"node": "vehicle_information_usage_type_sporty"}
+    ]
+  },
+  {
+    "node": "vehicle_information_usage_type_road",
+    "name": "Information si le client a un usage routier",
+    "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage routier",
+    "last": false,
+    "choices": [
+      {"node": "todo"}
+    ]
+  },
+  {
+    "node": "vehicle_information_usage_type_off_road",
+    "name": "Information si le client a un usage tout-terrain",
+    "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage tout-terrain",
+    "last": false,
+    "choices": [
+      {"node": "todo"}
+    ]
+  },
+  {
+    "node": "vehicle_information_usage_type_sporty",
+    "name": "Information si le client a un usage sportif",
+    "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage sportif",
+    "last": false,
+    "choices": [
+      {"node": "todo"}
+    ]
+  },
+
+  {
+    "node": "contact_information",
+    "name": "Informations de contact",
+    "description": "Permet d'obtenir les informations de contact",
+    "last": false,
+    "choices": [
+      {"node": "contact_information_email"},
+      {"node": "contact_information_phone"}
+    ]
+  },
+  {
+    "node": "contact_information_email",
+    "name": "Informations de contact - Email",
+    "description": "Permet d'obtenir l'email de contact",
+    "last": true,
+    "choices": []
+  },
+  {
+    "node": "contact_information_phone",
+    "name": "Informations de contact - Téléphone",
+    "description": "Permet d'obtenir le numéro de téléphone de contact",
+    "last": true,
+    "choices": []
+  }
+
+]
