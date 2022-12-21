@@ -50,7 +50,7 @@ class MessageController extends Controller {
       return Response.unprocessableEntity(req, res, "Missing channelId parameter");
     }
 
-    const {channelId} = Number.parseInt(req.params.channelId);
+    const channelId = Number.parseInt(req.params.channelId);
 
     const messageRepository = new MessageRepository();
     const messages = await messageRepository.findAllByChannelId(channelId);
