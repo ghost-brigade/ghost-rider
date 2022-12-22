@@ -1,0 +1,34 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
+@import 'variables';
+@import 'menu';
+@import 'section';
+@import 'button';
+
+#app {
+    min-height: 100vh;
+    background-color: $background_color;
+    color: $text_color;
+
+    main {
+        padding-bottom: 100px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: $text_color;
+
+    &:hover {
+        text-decoration: none;
+        color: $text_color_hover;
+    }
+}
+
+svg {
+    font-size: 1.4rem;
+}
+
+li {
+    list-style: none;
+}

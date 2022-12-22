@@ -5,19 +5,19 @@ import { SECURITY_CURRENT_KEY, SECURITY_GET_CURRENT_KEY } from './SecurityUserPr
 
 const currentUser = reactive({});
 
-async function getCurrentUser() {
+const getCurrentUser = async () => {
     const token = localStorage.getItem('token');
     if (!token) return null;
 
     if (currentUser.id) return currentUser;
 
     const user = await SECURITY_current();
+    console.log(user);
     if (user) {
-        Object.assign(user, currentUser);
+        Object.assign(currentUser, user);
     }
     return user;
 }
-
 getCurrentUser();
 
 provide(SECURITY_CURRENT_KEY, currentUser);

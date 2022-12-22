@@ -1,0 +1,30 @@
+section {
+    &.app_img-section {
+        position: relative;
+        
+        .img-background {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            z-index: 2;
+            position: relative;
+        }
+    }
+
+    &.app_full-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &.app_padding-section {
+        .content {
+            padding: 2rem;
+        }
+    }
+}
