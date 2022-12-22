@@ -1,6 +1,10 @@
+<script setup>
+import ButtonMenu from './components/staples/menu/ButtonMenu.vue';
+</script>
+
 <template>
+    <ButtonMenu :title="'CASPER'" />
     <main>
-        <h1>Ghost riders</h1>
-        <router-view></router-view>
+        <RouterView />
     </main>
   </template>

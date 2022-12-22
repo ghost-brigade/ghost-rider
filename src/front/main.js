@@ -1,28 +1,22 @@
 import {createApp} from "vue";
 import App from "./App.vue";
-import {createRouter, createWebHistory} from 'vue-router';
+import "./assets/styles/main.scss";
+import "bootstrap";
 
-import Home from './views/Home.vue';
-import Discussions from './views/Discussions.vue';
-import Discussion from './views/Discussion.vue';
-import Login from './views/Login.vue';
-import Contact from './views/Contact.vue';
+// ICONS
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faHome, faMotorcycle, faMessage, faUser, faGhost, faClose} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
-import "./assets/main.scss";
+library.add(faHome, faMotorcycle, faMessage, faUser, faGhost, faClose);
 
-const routes = [
-    {path: "/", component: Home},
-    {path: "/discussions", component: Discussions},
-    {path: "/discussion/:id", component: Discussion},
-    {path: "/login", component: Login},
-    {path: "/contact", component: Contact},
-];
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes
-});
+// ROUTES
+import FRONT_router from "./routes";
 
+// CREATE APP
 createApp(App)
-    .use(router)
+    .component("FontAwesomeIcon", FontAwesomeIcon)
+    .use(FRONT_router)
+    .component('font-awesome-icon', FontAwesomeIcon)
     .mount("#app");
