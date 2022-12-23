@@ -1,0 +1,36 @@
+.app_vehicule-list {
+    padding: 0;
+    margin: 0;
+}
+
+.app_vehicule-list-element a{
+    width: 100%;
+    display: flex;
+    background-color: $background_color_alt;
+    margin-bottom: 3rem;
+
+    .app_vehicule-list-element-img {
+        position: relative;
+        flex: 1;
+        margin-right: 20px;
+        min-height: 120px;
+
+        img {
+            position: absolute;
+            top: -30%;
+            left: -50%;
+            height: 160%;
+            max-height: 200px;
+            width: auto;
+        }
+    }
+    
+    .app_vehicule-list-element-content {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+        padding: 2rem;
+    }
+}

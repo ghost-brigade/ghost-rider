@@ -7,11 +7,13 @@ const routes = [
         title: "Accueil",
         menu: true,
         icon: "home",
+        allowAnonymous: true,
     }},
     {path: "/shop", component: () => import("./views/Shop.vue"), meta: {
         title: "Boutique",
         menu: true,
         icon: "motorcycle",
+        allowAnonymous: true,
     }},
     {path: "/discussions", component: () => import("./views/Discussions.vue"), meta: {
         title: "Discussions",
@@ -33,7 +35,7 @@ const routes = [
         title: "Connexion",
         menu: false,
         icon: "user",
-        allowAnonymous: true
+        allowAnonymous: true,
     }},
 ];
 

@@ -4,6 +4,9 @@
 @import 'menu';
 @import 'section';
 @import 'button';
+@import 'form';
+
+@import 'moto';
 
 #app {
     min-height: 100vh;
@@ -31,4 +34,8 @@ svg {
 
 li {
     list-style: none;
+}
+
+.app_padding-content {
+    padding: 0 2rem;
 }

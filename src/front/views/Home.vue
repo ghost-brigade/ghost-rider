@@ -1,3 +1,11 @@
+<script setup>
+import data from '../assets/domain/motos_data.json';
+import MotoList from '../components/moto/MotoList.vue';
+
+const visibleMotosId = data.visible_home;
+const vehicules = data.vehicules.filter(vehicule => visibleMotosId.includes(vehicule.id));
+</script>
+
 <template>
     <section class="app_full-section app_img-section app_padding-section">
         <img class="img-background" src="../assets/images/fond_moto.jfif"/>
@@ -11,10 +19,19 @@
     </section>
 
     <section>
-        <h2>Produits</h2>
-        <p>Profitez d’une sélection unique de motos.</p>
-        <div class="app_button-container">
-            <button class="cta">Voir plus</button>
+        <div class="app_padding-content">
+            <h2>Produits</h2>
+            <p>Profitez d’une sélection unique de motos.</p>
+        </div>
+
+        <MotoList :vehicules="vehicules"></MotoList>
+
+        <div class="app_padding-content">
+            <div class="app_button-container">
+                <RouterLink :to="'/shop'">
+                    <button class="cta">Voir plus</button>
+                </RouterLink>
+            </div>
         </div>
     </section>
     
