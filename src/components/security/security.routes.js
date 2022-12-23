@@ -1,8 +1,10 @@
 import LoginController from "./controller/login.controller.js";
 import RegisterController from "./controller/register.controller.js";
 import AntispamMiddleware from "./middleware/antispam.middleware.js";
+import AuthentificationMiddleware from "./middleware/authentification.middleware.js";
 import passwordRequestController from "./controller/passwordRequest.controller.js";
 import changePasswordController from "./controller/changePassword.controller.js";
+import currentUserController from "./controller/currentUser.controller.js";
 
 const slug = "/";
 
@@ -39,5 +41,12 @@ export default {
     controller: changePasswordController.changePassword,
     roles: [],
     middlewares: [AntispamMiddleware]
+  },
+  'security_current_user': {
+    path: slug + 'current',
+    method: 'get',
+    controller: currentUserController.current,
+    roles: [],
+    middlewares: [AuthentificationMiddleware]
   }
 };

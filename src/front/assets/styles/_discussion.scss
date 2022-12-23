@@ -1,0 +1,47 @@
+.app_discussion {
+    height: 100vh;
+    max-height: calc(100vh - 130px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .app_list-message {
+        display: flex;
+        flex-direction: column-reverse;
+        flex: 1;
+        overflow: auto;
+        padding: 0;
+
+        .app_message {
+            width: calc(100% - 2rem);
+            background-color: $background_color_alt;
+            margin-right: auto;
+            margin-bottom: 1rem;
+            padding: 1rem;
+
+            p {
+                margin-bottom: 0.4rem;
+            }
+    
+            &.mine {
+                margin-right: 0;
+                margin-left: auto;
+            }
+        }
+    }
+
+    .app_message-send-input {
+        max-width: 100%;
+        margin: 0;
+    }
+}
+
+.app_discussion-list {
+    padding: 0;
+
+    li {
+        background-color: $background_color_alt;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+}

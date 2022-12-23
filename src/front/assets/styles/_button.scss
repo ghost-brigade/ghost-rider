@@ -1,0 +1,16 @@
+button {
+    padding: 0.4rem 1.4rem;
+    border: 0;
+
+    &.cta {
+        text-transform: uppercase;
+        font-weight: bold;
+        background-color: $color_main;
+        color: $background_color;
+        font-size: 1.2rem;
+    }
+
+    &.full-size {
+        width: 100%;
+    }
+}

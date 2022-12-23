@@ -7,7 +7,7 @@ const events = {
 };
 
 const register = () => {
-  console.log("events registered");
+  if (process.env.NODE_ENV === 'dev') {console.log("events registered");}
 };
 
 export default {

@@ -1,0 +1,42 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
+@import 'variables';
+@import 'menu';
+@import 'section';
+@import 'button';
+@import 'form';
+
+@import 'moto';
+@import 'discussion';
+
+#app {
+    min-height: 100vh;
+    background-color: $background_color;
+    color: $text_color;
+
+    main {
+        padding-bottom: 100px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: $text_color;
+
+    &:hover {
+        text-decoration: none;
+        color: $text_color_hover;
+    }
+}
+
+svg {
+    font-size: 1.4rem;
+}
+
+li {
+    list-style: none;
+}
+
+.app_padding-content {
+    padding: 0 2rem;
+}

@@ -59,8 +59,6 @@ class UserControllerRegister extends Controller {
         }})
       );
 
-      console.log(Url.getBaseUrl(req) + "/register/confirm/" + token);
-
       return Response.created(req, res, newUser);
     } catch (err) {
       return Response.error(req, res, err.message);
