@@ -34,3 +34,36 @@
         padding: 2rem;
     }
 }
+
+.app_vehicule-main-img {
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+    max-width: 400px;
+
+    img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+    }
+}
+.app_vehicule-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+
+    .app_vehicule-title {
+        line-height: 0;
+        text-transform: uppercase;
+        p {
+            margin: 0;
+            opacity: 0.5;
+        }
+
+        h1 {
+            margin: 0;
+        }
+    }
+}

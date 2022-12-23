@@ -6,7 +6,6 @@ const props = defineProps({
         default: {}
     }
 });
-console.log(props.vehicule);
 </script>
 
 <template>

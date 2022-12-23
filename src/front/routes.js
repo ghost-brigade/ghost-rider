@@ -26,6 +26,12 @@ const routes = [
         icon: "user",
     }},
 
+    {path: "/moto/:id", component: () => import("./views/Moto.vue"), meta: {
+        title: "Moto",
+        menu: false,
+        icon: "motorcycle",
+        allowAnonymous: true,
+    }},
     {path: "/discussion/:id", component: () => import("./views/Discussion.vue"), meta: {
         title: "Discussion",
         menu: false,
