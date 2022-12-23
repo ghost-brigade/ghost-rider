@@ -1,0 +1,29 @@
+{
+  "visible_home": [1,2],
+  "vehicules": [
+    {
+      "id": 1, 
+      "brand": "Suzuki",
+      "name": "Katana",
+      "price": 12999,
+      "description": "Nouveau véhicule, description à venir",
+      "img": "/src/front/assets/images/suzuki_katana.png"
+    },
+    {
+      "id": 2, 
+      "brand": "Suzuki",
+      "name": "GSX-R125",
+      "price": 12999,
+      "description": "Nouveau véhicule, description à venir",
+      "img": "/src/front/assets/images/suzuki_gsx-r125.png"
+    },
+    {
+      "id": 3, 
+      "brand": "Suzuki",
+      "name": "SV650",
+      "price": 12999,
+      "description": "Nouveau véhicule, description à venir",
+      "img": "/src/front/assets/images/suzuki_sv650.png"
+    }
+  ]
+}

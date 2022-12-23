@@ -7,11 +7,13 @@ const routes = [
         title: "Accueil",
         menu: true,
         icon: "home",
+        allowAnonymous: true,
     }},
     {path: "/shop", component: () => import("./views/Shop.vue"), meta: {
         title: "Boutique",
         menu: true,
         icon: "motorcycle",
+        allowAnonymous: true,
     }},
     {path: "/discussions", component: () => import("./views/Discussions.vue"), meta: {
         title: "Discussions",
@@ -24,6 +26,12 @@ const routes = [
         icon: "user",
     }},
 
+    {path: "/moto/:id", component: () => import("./views/Moto.vue"), meta: {
+        title: "Moto",
+        menu: false,
+        icon: "motorcycle",
+        allowAnonymous: true,
+    }},
     {path: "/discussion/:id", component: () => import("./views/Discussion.vue"), meta: {
         title: "Discussion",
         menu: false,
@@ -33,7 +41,7 @@ const routes = [
         title: "Connexion",
         menu: false,
         icon: "user",
-        allowAnonymous: true
+        allowAnonymous: true,
     }},
 ];
 
