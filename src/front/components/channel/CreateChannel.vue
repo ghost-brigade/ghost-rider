@@ -2,6 +2,14 @@
 import { ref, reactive } from 'vue';
 import { CHANNEL_post } from '../../api/channel.js';
 
+const props = defineProps({
+    currentUser: {
+        type: Object,
+        required: true,
+        default: {}
+    }
+});
+
 const opened = ref(false);
 const formData = reactive({
     name: '',
@@ -19,19 +27,24 @@ const create = () => {
 
     const newChannel = CHANNEL_post(formData);
 }
+
+const authorized = ref(props.currentUser.id !== undefined
+    && props.currentUser.roles.includes('ROLE_ADMIN'));
 </script>
 
 <template>
-    <button @click="toggleOpen">{{ opened ? 'Fermer' : 'Créer' }}</button>
-    <form @submit.prevent="create" v-show="opened">
-        <div>
-            <label for="name">Nom de la discussion</label>
-            <input v-model="formData.name" id="name" type="text" placeholder="Définir un nom"/>
-        </div>
-        <div>
-            <label for="limit">Limite</label>
-            <input v-model="formData.limit" id="limit" type="number" min="2" max="100"/>
-        </div>
-        <button type="submit" class="cta">Créer</button>
-    </form>
+    <div v-if="authorized" class="app_toggle-button-form">
+        <button @click="toggleOpen" class="app_toggle-button">{{ opened ? 'Fermer' : 'Créer' }}</button>
+        <form @submit.prevent="create" v-show="opened">
+            <div class="form-row">
+                <label for="name" class="form-label">Nom de la discussion</label>
+                <input v-model="formData.name" id="name" type="text" placeholder="Définir un nom" class="form-control"/>
+            </div>
+            <div class="form-row">
+                <label for="limit" class="form-label">Limite</label>
+                <input v-model="formData.limit" id="limit" type="number" min="2" max="100" class="form-control"/>
+            </div>
+            <button type="submit" class="cta">Créer</button>
+        </form>
+    </div>
 </template>

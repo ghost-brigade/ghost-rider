@@ -12,3 +12,29 @@ form {
         
     }
 }
+
+.app_toggle-button-form {
+    margin-bottom: 2rem;
+
+    .app_toggle-button {
+        width: 100%;
+        color: $text_color;
+        background-color: $background_color_alt;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    form {
+        background-color: $background_color_alt;
+        border-top: 2px solid $color_main;
+        padding: 1rem 1rem 2rem 1rem;
+    }
+}
+
+.app_message-send-input {
+    display: flex;
+    
+    input {
+        flex: 1;
+    }
+}

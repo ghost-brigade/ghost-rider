@@ -37,6 +37,12 @@ const routes = [
         menu: false,
         icon: "flag",
     }},
+    {path: "/unauthorized", component: () => import("./views/errors/Unauthorized.vue"), meta: {
+        title: "Unauthorized",
+        menu: false,
+        icon: "user",
+        allowAnonymous: true,
+    }},
     {path: "/login", component: () => import("./views/Login.vue"), meta: {
         title: "Connexion",
         menu: false,
@@ -54,6 +60,16 @@ FRONT_router.beforeEach(async (to, from, next) => {
     const token = localStorage.getItem('token');
     if (token) {
         currentUser = await SECURITY_current();
+    }
+
+    if (to.meta?.roles) {
+        if (!currentUser) {
+            next('/login');
+        }
+        const matchingRoles = to.meta.roles.filter(role => currentUser.roles.includes(role));
+        if (!matchingRoles.length) {
+            next('/unauthorized');
+        }
     }
 
     if (!to.meta.allowAnonymous && (!token || !currentUser)) {

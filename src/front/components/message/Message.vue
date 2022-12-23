@@ -23,6 +23,7 @@ const props = defineProps({
 
 const user = reactive({});
 const connected = ref(user.id === props.currentUser?.id);
+
 onMounted(() => {
     loadUser();
 })
@@ -35,16 +36,20 @@ const loadUser = async () => {
         }
     } else if (props.message.user) {
         const askedUser = await props.getUserByPath(props.message.user);
-        if (askedUser) {
+        if (askedUser) {        
             Object.assign(user, askedUser);
         }
+    }
+
+    if (user.id === props.currentUser?.id) {
+        connected.value = true;
     }
 }
 
 </script>
 
 <template>
-    <li :class="connected ? 'mine' : 'else'">
+    <li class="app_message" :class="connected ? 'mine' : ''">
         <p>{{ user?.lastname }} {{ user?.firstname }}</p>
         {{ props.message.message }}
     </li>
