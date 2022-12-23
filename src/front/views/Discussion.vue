@@ -41,26 +41,32 @@ CHANNEL_socket.on("connect", () => {
   CHANNEL_socket.emit("channel:join", channelId);
 });
 CHANNEL_socket.on('message:new', (e) => {
-  messages.push(e);
+  messages.unshift(e);
 });
 </script>
 
 <template>
-  <RouterLink :to="'/discussions'">Retour</RouterLink>
-  <p>{{ channel.name }}</p>
+  <section class="app_padding-section">
+    <div class="content app_discussion">
+      <RouterLink :to="'/discussions'">Retour</RouterLink>
+      <h1>{{ channel.name }}</h1>
 
-  <SecurityUserProvider v-slot="{ currentUser }">
-    <UserProvider v-slot="{ getUserById, getUserByPath }">
-      <ul v-for="message in messages">
-        <Message 
-          :message="message"
-          :currentUser="currentUser"
-          :getUserById="getUserById"
-          :getUserByPath="getUserByPath"
-        />
-      </ul>
-    </UserProvider>
-  </SecurityUserProvider>
+      <SecurityUserProvider v-slot="{ currentUser }">
+        <UserProvider v-slot="{ getUserById, getUserByPath }">
+          <ul class="app_list-message">
+            <template v-for="message in messages">
+              <Message
+                :message="message"
+                :currentUser="currentUser"
+                :getUserById="getUserById"
+                :getUserByPath="getUserByPath"
+              />
+            </template>
+          </ul>
+        </UserProvider>
+      </SecurityUserProvider>
 
-  <MessageInput :channel_id="channelId"/>
+      <MessageInput :channel_id="channelId"/>
+    </div>
+  </section>
 </template>

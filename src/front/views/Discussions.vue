@@ -2,6 +2,7 @@
 import CreateChannel from '../components/channel/CreateChannel.vue';
 import { reactive, onMounted } from 'vue';
 import { CHANNEL_get } from '../api/channel';
+import SecurityUserProvider from '../provider/security/SecurityUserProvider.vue';
 
 const discussions = reactive([]);
 
@@ -12,13 +13,21 @@ onMounted(async () => {
 </script>
 
 <template>
-  <p>Discussions</p>
+  <section class="app_padding-section">
+    <div class="content">
+      <h1>Discussions</h1>
 
-  <CreateChannel />
+      <SecurityUserProvider v-slot="{ currentUser }">
+        <CreateChannel :currentUser="currentUser"/>
+      </SecurityUserProvider>
 
-  <ul v-for="discussion in discussions">
-    <RouterLink :to="`/discussion/${discussion.id}`">
-      <li>{{ discussion.name }}</li>
-    </RouterLink>
-  </ul>
+      <ul class="app_discussion-list">
+        <template v-for="discussion in discussions">
+          <RouterLink :to="`/discussion/${discussion.id}`">
+            <li>{{ discussion.name }}</li>
+          </RouterLink>
+        </template>
+      </ul>
+    </div>
+  </section>
 </template>

@@ -12,7 +12,6 @@ const getCurrentUser = async () => {
     if (currentUser.id) return currentUser;
 
     const user = await SECURITY_current();
-    console.log(user);
     if (user) {
         Object.assign(currentUser, user);
     }
