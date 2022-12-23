@@ -21,7 +21,7 @@ class NotificationRepository extends PrismaRepository {
     });
 
     // Publish the new notification to all connected clients
-    this.prisma.$publish('notificationCreated', notification);
+    // this.prisma.$publish('notificationCreated', notification);
 
     if (notification === null) {
       throw new Error('An error occurred while creating the notification');
@@ -51,7 +51,12 @@ class NotificationRepository extends PrismaRepository {
    * @returns {Promise<*>}
    */
   findAll = async () => {
-    return await this.prisma.notification.findMany();
+    return await this.prisma.notification.findMany({
+      orderBy: [
+        {isRead: 'asc'},
+        {createdAt: 'desc'}
+      ]
+    });
   };
 
 }

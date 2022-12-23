@@ -1,7 +1,7 @@
 import * as Response from "../../../common/service/Http/Response.js";
 import NotificationRepository from "../repository/notification.repository.js";
 import Controller from "../../../common/controller/controller.js";
-
+import notificationEvent from "../../notification/event/notification.event.js";
 class NotificationController extends Controller {
 
   constructor() {
@@ -21,7 +21,14 @@ class NotificationController extends Controller {
     }
 
     try {
-      const notification = await this.notificationRepository.create(req.body.user, req.body.message);
+      const notification = await this.notificationRepository.create(req.user, req.body.message);
+
+      // res.sse('notification', { message: 'Nouvelle notification' });
+
+      notificationEvent.emit('create', {
+        data: notification,
+      });
+
       return Response.ok(req, res, notification);
     } catch (err) {
       return Response.error(req, res, err.message);
