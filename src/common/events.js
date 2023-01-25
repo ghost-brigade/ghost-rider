@@ -1,9 +1,7 @@
 import EmailEvent from "../components/email/event/email.event.js";
-import ChabotEvent from "../components/chatbot/event/chabot.event.js";
 
 const events = {
   EmailEvent,
-  ChabotEvent,
 };
 
 const register = () => {
