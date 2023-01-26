@@ -81,3 +81,12 @@ model Antispam {
   updatedAt DateTime @updatedAt
   // isDeleted Boolean  @default(false)
 }
+
+model Maintenance {
+  id        Int      @id @default(autoincrement())
+  type      String   @db.VarChar(255)
+  appointment DateTime
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

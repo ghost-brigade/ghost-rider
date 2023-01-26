@@ -32,6 +32,14 @@ const unauthorized = async (req, res, message) => {
     return response;
 };
 
+const badRequest = async (req, res, message) => {
+    const response = res.status(400).json({
+        messages: message
+    });
+
+    return response;
+};
+
 const forbidden = async (req, res, message) => {
     const response = res.status(403).json({
         messages: message
@@ -68,6 +76,7 @@ const internalServerError = async (req, res, message, err) => {
 export {
     ok,
     created,
+    badRequest,
     unprocessableEntity,
     error,
     unauthorized,
