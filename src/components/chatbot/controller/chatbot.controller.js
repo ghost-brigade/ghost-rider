@@ -38,15 +38,19 @@ class ChatbotController extends Controller {
       const appointmentsDateStrings = appointments.map(a => a.appointment.toDateString());
       const startDate = new Date();
 
-      const availableDates = await this.#findAvailableDatesNotInAppointments(startDate, appointmentsDateStrings);
-
-      currentTree['ask']['choices'] = availableDates;
+      currentTree['ask']['choices'] = await this.#findAvailableDatesNotInAppointments(startDate, appointmentsDateStrings);
       return Response.ok(req, res, currentTree);
     }
 
-    if (currentTree?.save === true && currentTree?.last === true) {
+    if (
+      currentTree?.save === true &&
+      currentTree?.last === true &&
+      tree[previous?.id]?.ask?.save === current?.id
+    ) {
       return Response.ok(req, res, "saved");
     }
+
+    return Response.badRequest(req, res, "You're previous node is not supposed to be here");
   };
 
   #checkPrevious = ({current, previous, tree}) => {
