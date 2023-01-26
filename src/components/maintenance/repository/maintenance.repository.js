@@ -1,6 +1,6 @@
 import PrismaRepository from "../../../common/repository/prisma.repository.js";
 
-class MessageRepository extends PrismaRepository {
+class MaintenanceRepository extends PrismaRepository {
 
   /**
    * @param {int} id
@@ -8,7 +8,7 @@ class MessageRepository extends PrismaRepository {
    * @returns {Promise<*>}
    */
   find = async (id) => {
-    return await this.prisma.message.findUnique({
+    return await this.prisma.maintenance.findUnique({
       where: {
         id: id
       }
@@ -19,16 +19,20 @@ class MessageRepository extends PrismaRepository {
    * @returns {Promise<*>}
    */
   findAll = async () => {
-    return await this.prisma.message.findMany();
+    return await this.prisma.maintenance.findMany();
   };
 
   /**
    * @returns {Promise<*>}
    */
-  findAllByChannelId = async (channelId) => {
-    return await this.prisma.message.findMany({
+  findAllByType = async (type) => {
+    return await this.prisma.maintenance.findMany({
       where: {
-        channelId: channelId
+        type: type,
+        isActive: true,
+        appointment: {
+          gte: new Date()
+        }
       },
       orderBy: {
         createdAt: 'desc'
@@ -41,16 +45,16 @@ class MessageRepository extends PrismaRepository {
    * @returns {Promise<*>}
    */
   create = async (data) => {
-    const newMessage = await this.prisma.message.create({
+    const newMessage = await this.prisma.maintenance.create({
       data: data
     });
 
     if (newMessage === null) {
-      throw new Error('An error occurred while creating the user');
+      throw new Error('An error occurred while creating the maintenance');
     }
     return newMessage;
   };
 
 }
 
-export default MessageRepository;
+export default MaintenanceRepository;
