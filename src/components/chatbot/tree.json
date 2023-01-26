@@ -10,13 +10,7 @@
       {"id": "stop"}
     ]
   },
-  "stop": {
-    "name": "Stop",
-    "description": "Permet d'arrêter la conversation",
-    "message": "La conversation est terminée",
-    "last": true,
-    "choices": null
-  },
+
   "vehicle_maintenance":{
     "name": "Entretien du véhicule",
     "description": "Permet de demander des informations sur l'entretien du véhicule",
@@ -41,10 +35,12 @@
       {"id": "vehicle-", "type": "date"}
     ]
   },
+
   "vehicle_information": {
     "name": "Informations sur le véhicule",
     "description": "Permet d'obtenir des informations sur le véhicule",
     "last": false,
+    "message": "Quelle est le type d'usage du véhicule ?",
     "choices": [
       {"id": "vehicle_information_usage_type_road"},
       {"id": "vehicle_information_usage_type_off_road"},
@@ -54,14 +50,25 @@
   "vehicle_information_usage_type_road": {
     "name": "Information si le client a un usage routier",
     "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage routier",
+    "message": "Prenez rendez-vous avec un conseiller pour un essai routier",
     "last": false,
-    "choices": [
-      {"id": "todo"}
-    ]
+    "ask": {
+      "appointment": "road",
+      "type": "date",
+      "choices": null
+    }
+  },
+  "vehicle_information_usage_type_road_save": {
+    "name": "Sauvegarde du rendez-vous choisi par le client",
+    "description": "Permet de sauvegarder le rendez-vous choisi par le client",
+    "message": "Votre rendez-vous a bien été pris en compte",
+    "last": true,
+    "save": true
   },
   "vehicle_information_usage_type_off_road": {
     "name": "Information si le client a un usage tout-terrain",
     "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage tout-terrain",
+    "message": "",
     "last": false,
     "choices": [
       {"id": "todo"}
@@ -70,6 +77,7 @@
   "vehicle_information_usage_type_sporty": {
     "name": "Information si le client a un usage sportif",
     "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage sportif",
+    "message": "",
     "last": false,
     "choices": [
       {"id": "todo"}
@@ -78,6 +86,7 @@
   "contact_information": {
     "name": "Informations de contact",
     "description": "Permet d'obtenir les informations de contact",
+    "message": "Quelle information souhaitez-vous obtenir ?",
     "last": false,
     "choices": [
       {"id": "contact_information_email"},
@@ -97,5 +106,15 @@
     "message": "Le numéro de téléphone de contact est : 01 23 45 67 89",
     "last": true,
     "choices": null
+  },
+  "stop": {
+    "name": "Stop",
+    "description": "Permet d'arrêter la conversation",
+    "message": "La conversation est terminée",
+    "last": true,
+    "choices": null
   }
 }
+
+
+
