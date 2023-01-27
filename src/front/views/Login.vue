@@ -59,7 +59,11 @@ const connect = async () => {
                 </div>
                 <button type="submit" class="cta">Me connecter</button>
             </form>
-            <p class="text-center mt-5">Pas encore inscrit ? <router-link to="/register" class="text-decoration-underline">Créer un compte</router-link></p>
+            <p class="text-center mt-5">
+              Pas encore inscrit ? <router-link to="/register" class="text-decoration-underline">Créer un compte</router-link>
+              <br />
+              <router-link to="/forgot-password" class="text-decoration-underline">Mot de passe oublié</router-link>
+            </p>
         </div>
     </section>
 </template>

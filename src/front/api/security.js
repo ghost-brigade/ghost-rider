@@ -41,6 +41,34 @@ export const SECURITY_account_confirmation = async (data) => {
   }
 };
 
+export const SECURITY_forgot_password = async (data) => {
+  try {
+    return await request('/reset-password/request', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }, false);
+  } catch (err) {
+    throw new Error("Erreur lors de la ré-initialisation de votre mot de passe");
+  }
+};
+
+export const SECURITY_reset_password = async (data) => {
+  try {
+    return await request('/reset-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }, false);
+  } catch (err) {
+    throw new Error("Erreur lors de la modification de votre mot de passe");
+  }
+};
+
 export const SECURITY_current = async () => {
     return await request('/current', {
       method: "GET",
