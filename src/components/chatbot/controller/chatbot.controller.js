@@ -50,7 +50,7 @@ class ChatbotController extends Controller {
       currentTree?.last === true &&
       tree[previous?.id]?.ask?.save === current?.id
     ) {
-      return Response.ok(req, res, "saved");
+      return Response.ok(req, res, currentTree);
     }
 
     return Response.badRequest(req, res, "You're previous node is not supposed to be here");
