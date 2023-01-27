@@ -14,10 +14,16 @@ provide(SECURITY_CURRENT_KEY, {
     currentUser,
     setCurrentUser
 });
+
 onMounted(async () => {
     const token = localStorage.getItem('token');
     if (token) {
         const user = await SECURITY_current();
+        if (!user.id) {
+            localStorage.removeItem('token');
+            $route.push('/login');
+            return;
+        }
         setCurrentUser(user);
         loading.value = false;
     } else {

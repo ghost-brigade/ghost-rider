@@ -18,7 +18,6 @@ class ChatbotService {
     this.#checkCurrentNodeIsInPrevious({previous, current, tree});
 
     const currentTree = tree[current?.id];
-    console.log(currentTree);
 
     if (currentTree?.choices !== undefined) {
       currentTree['id'] = current.id;
@@ -29,27 +28,31 @@ class ChatbotService {
     }
 
     if (currentTree?.ask !== undefined) {
-      const appointments = await this.repository.findAllByType(currentTree?.ask?.appointment);
-      const appointmentsDateStrings = appointments.map(a => a.appointment.toDateString());
-      const startDate = new Date();
+      if (currentTree?.ask?.appointment !== undefined) {
+        const appointments = await this.repository.findAllByType(currentTree?.ask?.appointment);
+        const appointmentsDateStrings = appointments.map(a => a.appointment.toDateString());
+        const startDate = new Date();
 
-      currentTree['ask']['choices'] = await this.#findAvailableDatesNotInAppointments(startDate, appointmentsDateStrings);
+        currentTree['ask']['choices'] = await this.#findAvailableDatesNotInAppointments(startDate, appointmentsDateStrings);
+      }
       return currentTree;
     }
 
+    console.log(tree[previous?.id]);
+    console.log(current?.id);
     if (
       currentTree?.save === true &&
       currentTree?.last === true &&
       tree[previous?.id]?.ask?.save === current?.id
     ) {
-      return "saved";
+      return {'saved': true};
     }
   };
 
   #checkPrevious = ({current, previous, tree}) => {
     if (previous?.id === undefined && current?.id !== 'root') {
       if (previous?.data === undefined) {
-        //throw new Error('Invalid previous data');
+        throw new Error('Invalid previous data');
       }
 
       if (tree[previous.id] === undefined) {
@@ -65,7 +68,7 @@ class ChatbotService {
     }
 
     if (current?.data === undefined && current.id !== 'root') {
-      //throw new Error('Invalid current data');
+      throw new Error('Invalid current data');
     }
 
     if (tree[current.id] === undefined) {
@@ -79,6 +82,10 @@ class ChatbotService {
     }
 
     const previousNode = tree[previous.id];
+    if (previousNode.choices === undefined) {
+      return;
+    }
+
     const isCurrentNodeInPrevious = previousNode.choices.find((choice) => choice.id === current.id);
     if (!isCurrentNodeInPrevious) {
       throw new Error('Current node is not in previous node');

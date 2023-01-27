@@ -1,9 +1,9 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
-import { CHATBOT } from '../../api/chatbot';
 import { io } from "socket.io-client";
 
-const current = reactive({});
+const previous = reactive({});
+const current = reactive({'message': 'Chargement...'});
 const finished = ref(false);
 
 const CHATBOT_socket = io("ws://localhost:5000", {
@@ -13,23 +13,48 @@ const CHATBOT_socket = io("ws://localhost:5000", {
 });
 
 const chatbot_send = async (choice) => {
-    if (choice.last) {
+    if (choice.last === true) {
         Object.assign(current, choice);
+        Object.assign(previous, {});
         finished.value = true;
         return;
     }
 
-    const data = {'current': choice};
+    const data = {
+        'current': {
+            ...choice,
+            'id': choice.id,
+            'data': choice.data ?? {}
+        }
+    };
 
     if (choice.id !== 'root') {
-        data.previous = current;
+        data.previous = {
+            ...current,
+            'id': current.id,
+            'data': current.data ?? {}
+        };
     }
 
+    Object.assign(current, choice);
+    console.log(data);
     CHATBOT_socket.emit("chatbot:ask", data);
 }
 
 CHATBOT_socket.on('chatbot:answer', (newData) => {
+    console.log(newData);
     current.choices = [];
+    current.ask = null;
+
+    if (newData.saved === true || newData.last === true) {
+        Object.assign(current, {'message': 'Votre demande a bien été enregistrée.'});
+        Object.assign(previous, {});
+        finished.value = true;
+        return;
+
+    }
+    
+    Object.assign(previous, current);
     Object.assign(current, newData);
 });
 
@@ -39,7 +64,25 @@ const selectChoice = (choice) => {
 }
 
 const askCurrent = () => {
-    chatbot_send({'id': current.ask.next});
+    if (!current.ask) {
+        return;
+    }
+
+    if (!current.ask.data) {
+        return;
+    }
+
+    const choice = {
+        'data': current.ask.data
+    }
+    if (current.ask.next) {
+        choice.id = current.ask.next;
+    }
+    if (current.ask.save) {
+        choice.id = current.ask.save;
+    }
+
+    chatbot_send(choice);
 }
 
 const restart = () => {
@@ -64,10 +107,22 @@ onMounted(() => {
         </template>
 
         <template v-if="current.ask">
-            <input :type="current.ask.type" v-model="current.ask.value" />
-            <button @click="askCurrent">
-                Envoyer
-            </button>
+            <template v-if="current.ask.choices">
+                <select v-model="current.ask.data">
+                    <option v-for="choice in current.ask.choices">
+                        {{ choice }}
+                    </option>
+                </select>
+                <button @click="askCurrent">
+                    Envoyer
+                </button>
+            </template>
+            <template v-else>
+                <input :type="current.ask.type" v-model="current.ask.data" />
+                <button @click="askCurrent">
+                    Envoyer
+                </button>
+            </template>
         </template>
     </template>
 

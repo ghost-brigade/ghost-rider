@@ -17,7 +17,7 @@
     "last": false,
     "ask": {
       "next": "vehicle_maintenance_last_date",
-      "type": "date"
+      "type": "number"
     }
   },
   "vehicle_maintenance_last_date": {
