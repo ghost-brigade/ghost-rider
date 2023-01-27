@@ -65,6 +65,18 @@ const routes = [
       icon: "user",
       allowAnonymous: true,
     }},
+    {path: "/forgot-password", component: () => import("./views/ForgotPassword.vue"), meta: {
+        title: "Mot de passe oublié",
+        menu: false,
+        icon: "user",
+        allowAnonymous: true,
+      }},
+    {path: "/reset-password/:token", component: () => import("./views/ResetPassword.vue"), meta: {
+        title: "Réinitialisation de mot de passe",
+        menu: false,
+        icon: "user",
+        allowAnonymous: true,
+      }},
 ];
 
 const FRONT_router = createRouter({

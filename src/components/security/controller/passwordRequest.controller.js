@@ -6,11 +6,13 @@ import UserRepository from "../../user/repository/user.repository.js";
 import emailEvent from "../../email/event/email.event.js";
 import Email from "../../email/email.js";
 import TokenValidityService from "../service/token/tokenValidity.service.js";
+import config from "../../../../config.js";
 
 class PasswordRequestController extends Controller {
 
   constructor() {
     super();
+    config.env();
     this.userRepository = new UserRepository();
     this.passwordResetRepository = new PasswordResetRepository();
   }
@@ -57,7 +59,7 @@ class PasswordRequestController extends Controller {
       subject: 'Password Reset',
       template: 'password/password-reset.html',
       context: {
-        token: token
+        link: process.env.VITE_FRONT_URL + "/reset-password/" + token
       }
     }));
 

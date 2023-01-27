@@ -1,0 +1,53 @@
+<script setup>
+import { useRouter } from 'vue-router';
+import {reactive, ref} from 'vue';
+import { SECURITY_forgot_password } from '../api/security.js';
+
+const router = useRouter();
+
+const message   = ref(null);
+const formData  = reactive({email: ''});
+
+const validate = async ({email}) => {
+  message.value = null;
+
+  if (email === '' || email === undefined) {
+    throw new Error('Le champ email est obligatoire');
+  }
+
+  const response = await SECURITY_forgot_password({email}).catch((error) => {
+    message.value = error.message;
+  });
+
+  if (response.ok) {
+    return router.push('/login');
+  }
+
+  const data = await response.json();
+  message.value = data.messages;
+}
+
+const handleConfirmation = async () => {
+  try {
+    await validate({email: formData.email});
+  } catch (err) {
+    message.value = err.message;
+  }
+}
+</script>
+
+<template>
+  <section class="app_padding-section">
+    <div class="content">
+      <form @submit.prevent="handleConfirmation">
+        <h1>Mot de passe oublié</h1>
+        <div v-if="message" class="text text-danger mt-2 mb-2">{{ message }}</div>
+        <div class="form-row">
+          <label for="email" class="form-label">Email</label>
+          <input v-model="formData.email" id="email" type="email" class="form-control"/>
+        </div>
+        <button type="submit" class="cta">Envoyer un email de réinitialisation</button>
+      </form>
+    </div>
+  </section>
+</template>
