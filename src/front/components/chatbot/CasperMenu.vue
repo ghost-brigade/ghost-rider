@@ -48,11 +48,10 @@ CHATBOT_socket.on('chatbot:answer', (newData) => {
     current.ask = null;
 
     if (newData.saved === true || newData.last === true) {
-        Object.assign(current, {'message': 'Votre demande a bien été enregistrée.'});
+        Object.assign(current, {'message': newData.message});
         Object.assign(previous, {});
         finished.value = true;
         return;
-
     }
 
     Object.assign(previous, current);
@@ -87,7 +86,8 @@ const askCurrent = () => {
 }
 
 const restart = () => {
-    Object.assign(current, {'message': 'Définissez votre demande :'});
+    Object.assign(current, {});
+    Object.assign(previous, {});
     chatbot_send({'id': 'root'});
     finished.value = false;
 }
@@ -112,7 +112,7 @@ onMounted(() => {
                 <template v-if="current.ask.choices">
                     <select v-model="current.ask.data">
                         <option v-for="choice in current.ask.choices">
-                            {{ choice }}
+                          {{ new Date(choice).toLocaleDateString() ?? choice }}
                         </option>
                     </select>
                     <button @click="askCurrent">
