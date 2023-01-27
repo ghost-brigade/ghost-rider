@@ -53,6 +53,12 @@ const routes = [
         icon: "user",
         allowAnonymous: true,
     }},
+    {path: "/register", component: () => import("./views/Register.vue"), meta: {
+      title: "Inscription",
+      menu: false,
+      icon: "user",
+      allowAnonymous: true,
+    }},
 ];
 
 const FRONT_router = createRouter({

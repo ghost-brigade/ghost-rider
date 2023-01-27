@@ -18,7 +18,7 @@ const connect = async () => {
     if (formData.email === '' || formData.password === '') {
         return;
     }
-    
+
     const userConnected = await SECURITY_login(formData);
     setCurrentUser(userConnected);
 
@@ -45,6 +45,7 @@ const connect = async () => {
                 </div>
                 <button type="submit" class="cta">Me connecter</button>
             </form>
+            <p class="text-center mt-5">Pas encore inscrit ? <router-link to="/register" class="text-decoration-underline">Créer un compte</router-link></p>
         </div>
     </section>
 </template>
