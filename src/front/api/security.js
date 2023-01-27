@@ -7,12 +7,9 @@ export const SECURITY_login = async (data) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    })
-    .then(data => {
-        if (data.token) {
-            localStorage.setItem('token', data.token);
-        }
-        return data;
+    }, false)
+    .then(response => {
+        return response;
     });
 };
 
