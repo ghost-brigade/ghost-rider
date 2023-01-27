@@ -14,7 +14,7 @@ const setCurrentUser = (data) => {
     Object.assign(currentUser, data);
 }
 
-const CONSEILLERS_socket = io("ws://localhost:5000", {
+const CONSEILLERS_socket = io(import.meta.env.VITE_WS_URL, {
     auth: {
         token: localStorage.getItem('token')
     }

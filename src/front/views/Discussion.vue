@@ -33,7 +33,7 @@ const loadMessages = async () => {
   Object.assign(messages, fetched_messages);
 }
 
-const CHANNEL_socket = io("ws://localhost:5000", {
+const CHANNEL_socket = io(import.meta.env.VITE_WS_URL, {
   auth: {
     token: localStorage.getItem('token')
   }

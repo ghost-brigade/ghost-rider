@@ -9,7 +9,7 @@ const { currentUser } = inject(SECURITY_CURRENT_KEY);
 
 provide(CONSEILLERS_PROVIDER, { conseillers });
 
-const CONSEILLERS_socket = io("ws://localhost:5000", {
+const CONSEILLERS_socket = io(import.meta.env.VITE_WS_URL, {
   auth: {
     token: localStorage.getItem('token')
   }

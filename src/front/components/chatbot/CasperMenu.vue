@@ -9,7 +9,7 @@ const previous = reactive({});
 const current = reactive({'message': 'Chargement...'});
 const finished = ref(false);
 
-const CHATBOT_socket = io("ws://localhost:5000", {
+const CHATBOT_socket = io(import.meta.env.VITE_WS_URL, {
   auth: {
     token: localStorage.getItem('token')
   }
@@ -54,7 +54,7 @@ CHATBOT_socket.on('chatbot:answer', (newData) => {
         return;
 
     }
-    
+
     Object.assign(previous, current);
     Object.assign(current, newData);
 });

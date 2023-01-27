@@ -8,7 +8,7 @@ export const request = async (url, options) => {
     }
 
     try {
-        return await fetch(`http://localhost:5000${url}`, options)
+        return await fetch(import.meta.env.VITE_API_URL + url, options)
             .then(response => response.json());
     } catch (error) {
         console.error(error);
