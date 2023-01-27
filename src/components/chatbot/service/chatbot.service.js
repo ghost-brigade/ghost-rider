@@ -20,10 +20,10 @@ class ChatbotService {
     const currentTree = tree[current?.id];
 
     if (currentTree?.choices !== undefined) {
-      currentTree['id'] = current.id;
+      /*currentTree['id'] = current.id;
       currentTree['choices'] = currentTree['choices'].map(choice => {
         return {...tree[choice.id], id: choice.id};
-      });
+      });*/
       return currentTree;
     }
 
@@ -45,7 +45,7 @@ class ChatbotService {
       currentTree?.last === true &&
       tree[previous?.id]?.ask?.save === current?.id
     ) {
-      return {'saved': true};
+      return currentTree;
     }
   };
 
