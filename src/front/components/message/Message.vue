@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, ref, reactive } from 'vue';
-
+import { onMounted, ref, reactive, inject } from 'vue';
+import { USERS_PROVIDER } from '../../provider/user/UsersProviderKeys';
 
 const props = defineProps({
     message: {
@@ -10,46 +10,26 @@ const props = defineProps({
     currentUser: {
         type: Object,
         required: true
-    },
-    getUserById: {
-        type: Function,
-        required: true
-    },
-    getUserByPath: {
-        type: Function,
-        required: true
     }
 });
 
 const user = reactive({});
-const connected = ref(user.id === props.currentUser?.id);
+const { searchUser } = inject(USERS_PROVIDER);
 
 onMounted(() => {
     loadUser();
 })
 
 const loadUser = async () => {
-    if (props.message.userId) {
-        const askedUser = await props.getUserById(props.message.userId);
-        if (askedUser) {
-            Object.assign(user, askedUser);
-        }
-    } else if (props.message.user) {
-        const askedUser = await props.getUserByPath(props.message.user);
-        if (askedUser) {        
-            Object.assign(user, askedUser);
-        }
-    }
-
-    if (user.id === props.currentUser?.id) {
-        connected.value = true;
-    }
+    const path = props.message.userId ? `/user/${props.message.userId}` : props.message.user;
+    const found = await searchUser(path);
+    Object.assign(user, found);
 }
 
 </script>
 
 <template>
-    <li class="app_message" :class="connected ? 'mine' : ''">
+    <li class="app_message" :class="user.id === props.currentUser?.id ? 'mine' : ''">
         <p>{{ user?.lastname }} {{ user?.firstname }}</p>
         {{ props.message.message }}
     </li>

@@ -1,18 +1,32 @@
 <script setup>
-import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { reactive, inject } from 'vue';
 import { SECURITY_login } from '../api/security.js';
+import { SECURITY_CURRENT_KEY } from '../provider/security/SecurityUserProviderKeys';
+
+
+const router = useRouter();
+const redirectRoute = router.currentRoute.value.query.redirect;
+const { setCurrentUser } = inject(SECURITY_CURRENT_KEY);
 
 const formData = reactive({
     email: '',
     password: ''
 });
 
-const connect = () => {
+const connect = async () => {
     if (formData.email === '' || formData.password === '') {
         return;
     }
     
-    const userConnected = SECURITY_login(formData);
+    const userConnected = await SECURITY_login(formData);
+    setCurrentUser(userConnected);
+
+    if (redirectRoute) {
+        router.push(redirectRoute);
+    } else {
+        router.push("/profile");
+    }
 }
 </script>
 

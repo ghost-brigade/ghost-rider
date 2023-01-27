@@ -1,13 +1,13 @@
 <script setup>
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, inject } from 'vue';
 import { io } from "socket.io-client";
 import { CHANNEL_find } from '../api/channel';
 import { MESSAGE_list } from '../api/message';
 import { useRoute } from 'vue-router';
 import MessageInput from '../components/message/MessageInput.vue';
 import Message from '../components/message/Message.vue';
-import UserProvider from '../provider/users/UserProvider.vue';
-import SecurityUserProvider from '../provider/security/SecurityUserProvider.vue';
+import { SECURITY_CURRENT_KEY } from '../provider/security/SecurityUserProviderKeys';
+import UsersProvider from '../provider/user/UsersProvider.vue';
 
 const channel = reactive([]);
 const messages = reactive([]);
@@ -15,6 +15,8 @@ const messages = reactive([]);
 // get id in url params
 const $route = useRoute();
 const channelId = $route.params.id;
+
+const { currentUser } = inject(SECURITY_CURRENT_KEY);
 
 onMounted(() => {
   loadChannel();
@@ -51,20 +53,16 @@ CHANNEL_socket.on('message:new', (e) => {
       <RouterLink :to="'/discussions'">Retour</RouterLink>
       <h1>{{ channel.name }}</h1>
 
-      <SecurityUserProvider v-slot="{ currentUser }">
-        <UserProvider v-slot="{ getUserById, getUserByPath }">
-          <ul class="app_list-message">
-            <template v-for="message in messages">
-              <Message
-                :message="message"
-                :currentUser="currentUser"
-                :getUserById="getUserById"
-                :getUserByPath="getUserByPath"
-              />
-            </template>
-          </ul>
-        </UserProvider>
-      </SecurityUserProvider>
+      <UsersProvider>
+        <ul class="app_list-message">
+          <template v-for="message in messages">
+            <Message
+              :message="message"
+              :currentUser="currentUser"
+            />
+          </template>
+        </ul>
+      </UsersProvider>
 
       <MessageInput :channel_id="channelId"/>
     </div>

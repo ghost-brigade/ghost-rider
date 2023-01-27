@@ -1,39 +1,31 @@
-import Controller from "../../../common/controller/controller.js";
-import * as Response from "../../../common/service/Http/Response.js";
 import MaintenanceRepository from "../../maintenance/repository/maintenance.repository.js";
 import fs from "fs";
 import path, {dirname} from "path";
 import {fileURLToPath} from "url";
 
-class ChatbotController extends Controller {
-
+class ChatbotService {
   constructor() {
-    super();
     this.repository = new MaintenanceRepository();
   }
 
-  chatbot = async (req, res) => {
+  chatbot = async (current, previous = null) => {
     const treePath = path.join(dirname(fileURLToPath(import.meta.url)), '..', 'tree.json');
     let tree = fs.readFileSync(treePath);
     tree = JSON.parse(tree);
 
-    const {previous, current} = req.body;
-
-    try {
-      this.#checkCurrent({current, tree});
-      this.#checkPrevious({current, previous, tree});
-      this.#checkCurrentNodeIsInPrevious({previous, current, tree});
-    } catch (error) {
-      return Response.badRequest(req, res, error.message);
-    }
+    this.#checkCurrent({current, tree});
+    this.#checkPrevious({current, previous, tree});
+    this.#checkCurrentNodeIsInPrevious({previous, current, tree});
 
     const currentTree = tree[current?.id];
+    console.log(currentTree);
 
     if (currentTree?.choices !== undefined) {
+      currentTree['id'] = current.id;
       currentTree['choices'] = currentTree['choices'].map(choice => {
         return {...tree[choice.id], id: choice.id};
       });
-      return Response.ok(req, res, currentTree);
+      return currentTree;
     }
 
     if (currentTree?.ask !== undefined) {
@@ -42,7 +34,7 @@ class ChatbotController extends Controller {
       const startDate = new Date();
 
       currentTree['ask']['choices'] = await this.#findAvailableDatesNotInAppointments(startDate, appointmentsDateStrings);
-      return Response.ok(req, res, currentTree);
+      return currentTree;
     }
 
     if (
@@ -50,16 +42,14 @@ class ChatbotController extends Controller {
       currentTree?.last === true &&
       tree[previous?.id]?.ask?.save === current?.id
     ) {
-      return Response.ok(req, res, "saved");
+      return "saved";
     }
-
-    return Response.badRequest(req, res, "You're previous node is not supposed to be here");
   };
 
   #checkPrevious = ({current, previous, tree}) => {
     if (previous?.id === undefined && current?.id !== 'root') {
       if (previous?.data === undefined) {
-        throw new Error('Invalid previous data');
+        //throw new Error('Invalid previous data');
       }
 
       if (tree[previous.id] === undefined) {
@@ -75,7 +65,7 @@ class ChatbotController extends Controller {
     }
 
     if (current?.data === undefined && current.id !== 'root') {
-      throw new Error('Invalid current data');
+      //throw new Error('Invalid current data');
     }
 
     if (tree[current.id] === undefined) {
@@ -134,4 +124,4 @@ class ChatbotController extends Controller {
   };
 }
 
-export default new ChatbotController;
+export default ChatbotService;
