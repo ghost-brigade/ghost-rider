@@ -85,6 +85,8 @@ class UserControllerRegister extends Controller {
       await this.userRepository.update({id: user.id}, user);
       return Response.ok(req, res, "Account confirmed, please login to continue");
     }
+
+    return Response.unprocessableEntity(req, res, "Invalid token");
   };
 
   //TODO : test registration
