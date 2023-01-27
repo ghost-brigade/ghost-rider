@@ -1,7 +1,10 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, inject } from 'vue';
 import { io } from "socket.io-client";
+import { SECURITY_CURRENT_KEY } from '../../provider/security/SecurityUserProviderKeys';
 
+
+const { currentUser } = inject(SECURITY_CURRENT_KEY);
 const previous = reactive({});
 const current = reactive({'message': 'Chargement...'});
 const finished = ref(false);
@@ -37,12 +40,10 @@ const chatbot_send = async (choice) => {
     }
 
     Object.assign(current, choice);
-    console.log(data);
     CHATBOT_socket.emit("chatbot:ask", data);
 }
 
 CHATBOT_socket.on('chatbot:answer', (newData) => {
-    console.log(newData);
     current.choices = [];
     current.ask = null;
 
@@ -97,36 +98,42 @@ onMounted(() => {
 </script>
 
 <template>
-    <p>{{ current.message }}</p>
-    <template v-if="current">
-        <p>{{ current.text }}</p>
-        <template v-for="choice in current.choices">
-            <button @click="() => selectChoice(choice)">
-                {{ choice.name }}
-            </button>
+    <template v-if="currentUser.id">
+        <p>{{ current.message }}</p>
+        <template v-if="current">
+            <p>{{ current.text }}</p>
+            <template v-for="choice in current.choices">
+                <button @click="() => selectChoice(choice)">
+                    {{ choice.name }}
+                </button>
+            </template>
+
+            <template v-if="current.ask">
+                <template v-if="current.ask.choices">
+                    <select v-model="current.ask.data">
+                        <option v-for="choice in current.ask.choices">
+                            {{ choice }}
+                        </option>
+                    </select>
+                    <button @click="askCurrent">
+                        Envoyer
+                    </button>
+                </template>
+                <template v-else>
+                    <input :type="current.ask.type" v-model="current.ask.data" />
+                    <button @click="askCurrent">
+                        Envoyer
+                    </button>
+                </template>
+            </template>
         </template>
 
-        <template v-if="current.ask">
-            <template v-if="current.ask.choices">
-                <select v-model="current.ask.data">
-                    <option v-for="choice in current.ask.choices">
-                        {{ choice }}
-                    </option>
-                </select>
-                <button @click="askCurrent">
-                    Envoyer
-                </button>
-            </template>
-            <template v-else>
-                <input :type="current.ask.type" v-model="current.ask.data" />
-                <button @click="askCurrent">
-                    Envoyer
-                </button>
-            </template>
+        <template v-if="finished">
+            <button @click="restart">Effectuer une autre demande</button>
         </template>
     </template>
 
-    <template v-if="finished">
-        <button @click="restart">Effectuer une autre demande</button>
+    <template v-else>
+        <p>Vous devez être connecté pour utiliser le chatbot.</p>
     </template>
 </template>

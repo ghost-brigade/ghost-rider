@@ -17,7 +17,13 @@ class LoginController extends Controller {
    */
   current = async (req, res) => {
     if (req.user) {
-        return Response.ok(req, res, req.user);
+        return Response.ok(req, res, {
+          'id': req.user.id,
+          'firstname': req.user.firstname,
+          'lastname': req.user.lastname,
+          'email': req.user.email,
+          'roles': req.user.roles,
+        });
     } else {
         return Response.notFound(req, res, 'Not connected');
     }
