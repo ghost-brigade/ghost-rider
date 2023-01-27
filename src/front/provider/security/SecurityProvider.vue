@@ -7,12 +7,21 @@ import { useRoute } from "vue-router";
 const $route = useRoute();
 const loading = ref(true);
 const currentUser = reactive({});
+
 const setCurrentUser = (data) => {
     Object.assign(currentUser, data);
 }
+
+const disconnect = () => {
+    Object.assign(currentUser, {});
+    localStorage.removeItem('token');
+    $route.push('/login');
+}
+
 provide(SECURITY_CURRENT_KEY, {
     currentUser,
-    setCurrentUser
+    setCurrentUser,
+    disconnect
 });
 
 onMounted(async () => {
