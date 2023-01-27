@@ -16,6 +16,20 @@ export const SECURITY_login = async (data) => {
     });
 };
 
+export const SECURITY_register = async (data) => {
+    try {
+      return await request('/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }, false);
+    } catch (err) {
+      throw new Error("Erreur lors de l'inscription, veuillez réessayer plus tard");
+    }
+};
+
 export const SECURITY_current = async () => {
     return await request('/current', {
       method: "GET",
