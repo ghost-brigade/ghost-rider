@@ -2,12 +2,25 @@
   "root": {
     "name": "Point de départ",
     "description": "Point de départ de la conversation",
+    "message": "Définissez votre demande",
     "last": false,
     "choices": [
-      {"id": "vehicle_maintenance"},
-      {"id": "vehicle_information"},
-      {"id": "contact_information"},
-      {"id": "stop"}
+      {
+        "id": "vehicle_maintenance",
+        "name": "Entretien du véhicule"
+      },
+      {
+        "id": "vehicle_information",
+        "name": "Informations sur le véhicule"
+      },
+      {
+        "id": "contact_information",
+        "name": "Informations de contact"
+      },
+      {
+        "id": "stop",
+        "name": "Arrêter la conversation"
+      }
     ]
   },
   "vehicle_maintenance":{
@@ -26,14 +39,20 @@
     "message": "Quelle est la date du dernier entretien ?",
     "last": false,
     "choices": [
-      {"id": "vehicle_maintenance_last_date_gt_1_year"},
-      {"id": "vehicle_maintenance_last_date_lt_1_year"}
+      {
+        "id": "vehicle_maintenance_last_date_gt_1_year",
+        "name": "Plus d'un an"
+      },
+      {
+        "id": "vehicle_maintenance_last_date_lt_1_year",
+        "name": "Moins d'un an"
+      }
     ]
   },
   "vehicle_maintenance_last_date_gt_1_year": {
     "name": "Date du dernier entretien",
     "description": "Permet de demander la date du dernier entretien",
-    "message": "Quelle est la date du dernier entretien ?",
+    "message": "Prenez rendez-vous pour l'entretien de votre véhicule",
     "last": false,
     "ask": {
       "save": "vehicle_maintenance_last_date_gt_1_year_save",
@@ -55,14 +74,20 @@
     "message": "Combien de kilomètres avez-vous parcourus depuis le dernier entretien ?",
     "last": false,
     "choices": [
-      {"id": "vehicle_maintenance_km_gte_10000"},
-      {"id": "vehicle_maintenance_km_lte_10000"}
+      {
+        "id": "vehicle_maintenance_km_gte_10000",
+        "name": "Plus de 10 000 km"
+      },
+      {
+        "id": "vehicle_maintenance_km_lte_10000",
+        "name": "Moins de 10 000 km"
+      }
     ]
   },
   "vehicle_maintenance_km_gte_10000": {
     "name": "Nombre de kilomètres parcourus supérieur ou égal à 10000",
     "description": "Permet de proposer un rendez-vous pour l'entretien",
-    "message": "Quelle est la date du dernier entretien ?",
+    "message": "Prenez rendez-vous pour l'entretien de votre véhicule",
     "last": false,
     "ask": {
       "save": "vehicle_maintenance_km_gte_10000_save",
@@ -84,14 +109,20 @@
     "message": "Souhaitez-vous réviser votre véhicule ?",
     "last": false,
     "choices": [
-      {"id": "vehicle_maintenance_km_lte_10000_appointment"},
-      {"id": "stop"}
+      {
+        "id": "vehicle_maintenance_km_lte_10000_appointment",
+        "name": "Oui"
+      },
+      {
+        "id": "stop",
+        "name": "Non"
+      }
     ]
   },
   "vehicle_maintenance_km_lte_10000_appointment": {
     "name": "Proposer un rendez-vous pour l'entretien",
     "description": "Permet de proposer un rendez-vous pour l'entretien",
-    "message": "Quelle est la date du dernier entretien ?",
+    "message": "Prenez rendez-vous pour l'entretien de votre véhicule",
     "last": false,
     "ask": {
       "save": "vehicle_maintenance_km_lte_10000_appointment_save",
@@ -113,9 +144,18 @@
     "last": false,
     "message": "Quelle est le type d'usage du véhicule ?",
     "choices": [
-      {"id": "vehicle_information_usage_type_road"},
-      {"id": "vehicle_information_usage_type_off_road"},
-      {"id": "vehicle_information_usage_type_sporty"}
+      {
+        "id": "vehicle_information_usage_type_road",
+        "name": "Usage routier"
+      },
+      {
+        "id": "vehicle_information_usage_type_off_road",
+        "name": "Usage hors route"
+      },
+      {
+        "id": "vehicle_information_usage_type_sporty",
+        "name": "Usage sportif"
+      }
     ]
   },
   "vehicle_information_usage_type_road": {
@@ -140,7 +180,7 @@
   "vehicle_information_usage_type_off_road": {
     "name": "Information si le client a un usage tout-terrain",
     "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage tout-terrain",
-    "message": "",
+    "message": "Prenez rendez-vous avec un conseiller pour un essai tout-terrain",
     "last": false,
     "ask": {
       "save": "vehicle_information_usage_type_off_road_save",
@@ -159,7 +199,7 @@
   "vehicle_information_usage_type_sporty": {
     "name": "Information si le client a un usage sportif",
     "description": "Permet d'obtenir des informations sur le véhicule si le client a un usage sportif",
-    "message": "",
+    "message": "Prenez rendez-vous avec un conseiller pour un essai sportif",
     "last": false,
     "ask": {
       "save": "vehicle_information_usage_type_sporty_save",
@@ -181,8 +221,14 @@
     "message": "Quelle information souhaitez-vous obtenir ?",
     "last": false,
     "choices": [
-      {"id": "contact_information_email"},
-      {"id": "contact_information_phone"}
+      {
+        "id": "contact_information_email",
+        "name": "Email"
+      },
+      {
+        "id": "contact_information_phone",
+        "name": "Téléphone"
+      }
     ]
   },
   "contact_information_email": {
