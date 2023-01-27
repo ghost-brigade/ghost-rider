@@ -27,7 +27,7 @@ const connect = async () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        setCurrentUser(userConnected);
+        setCurrentUser(data);
 
         if (redirectRoute) {
           router.push(redirectRoute);
