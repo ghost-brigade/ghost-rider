@@ -27,6 +27,20 @@ export const SECURITY_register = async (data) => {
     }
 };
 
+export const SECURITY_account_confirmation = async (data) => {
+  try {
+    return await request('/register/confirm/' + data?.token, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }, false);
+  } catch (err) {
+    throw new Error("Erreur lors de la validation de votre compte");
+  }
+};
+
 export const SECURITY_current = async () => {
     return await request('/current', {
       method: "GET",
