@@ -1,9 +1,11 @@
 import ChannelSocket from "../components/channel/socket/channel.socket.js";
 import ChatbotSocket from "../components/chatbot/socket/chatbot.socket.js";
+import UserSocket from "../components/user/socket/user.socket.js";
 
 const sockets = {
   ChannelSocket,
   ChatbotSocket,
+  UserSocket,
 };
 
 const register = () => {

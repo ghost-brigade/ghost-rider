@@ -36,6 +36,11 @@ const routes = [
         menu: false,
         icon: "flag",
     }},
+    {path: "/conseiller/:id", component: () => import("./views/Conseiller.vue"), meta: {
+        title: "Conseiller",
+        menu: false,
+        icon: "user",
+    }},
     {path: "/unauthorized", component: () => import("./views/errors/Unauthorized.vue"), meta: {
         title: "Unauthorized",
         menu: false,
