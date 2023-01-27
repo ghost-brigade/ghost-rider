@@ -1,59 +1,52 @@
-import Controller from "../../../common/controller/controller.js";
-import * as Response from "../../../common/service/Http/Response.js";
 import MaintenanceRepository from "../../maintenance/repository/maintenance.repository.js";
 import fs from "fs";
 import path, {dirname} from "path";
 import {fileURLToPath} from "url";
 
-class ChatbotController extends Controller {
-
+class ChatbotService {
   constructor() {
-    super();
     this.repository = new MaintenanceRepository();
   }
 
-  chatbot = async (req, res) => {
+  chatbot = async (current, previous = null) => {
     const treePath = path.join(dirname(fileURLToPath(import.meta.url)), '..', 'tree.json');
     let tree = fs.readFileSync(treePath);
     tree = JSON.parse(tree);
 
-    const {previous, current} = req.body;
-
-    try {
-      this.#checkCurrent({current, tree});
-      this.#checkPrevious({current, previous, tree});
-      this.#checkCurrentNodeIsInPrevious({previous, current, tree});
-    } catch (error) {
-      return Response.badRequest(req, res, error.message);
-    }
+    this.#checkCurrent({current, tree});
+    this.#checkPrevious({current, previous, tree});
+    this.#checkCurrentNodeIsInPrevious({previous, current, tree});
 
     const currentTree = tree[current?.id];
 
     if (currentTree?.choices !== undefined) {
+      currentTree['id'] = current.id;
       currentTree['choices'] = currentTree['choices'].map(choice => {
         return {...tree[choice.id], id: choice.id};
       });
-      return Response.ok(req, res, currentTree);
+      return currentTree;
     }
 
     if (currentTree?.ask !== undefined) {
-      const appointments = await this.repository.findAllByType(currentTree?.ask?.appointment);
-      const appointmentsDateStrings = appointments.map(a => a.appointment.toDateString());
-      const startDate = new Date();
+      if (currentTree?.ask?.appointment !== undefined) {
+        const appointments = await this.repository.findAllByType(currentTree?.ask?.appointment);
+        const appointmentsDateStrings = appointments.map(a => a.appointment.toDateString());
+        const startDate = new Date();
 
-      currentTree['ask']['choices'] = await this.#findAvailableDatesNotInAppointments(startDate, appointmentsDateStrings);
-      return Response.ok(req, res, currentTree);
+        currentTree['ask']['choices'] = await this.#findAvailableDatesNotInAppointments(startDate, appointmentsDateStrings);
+      }
+      return currentTree;
     }
 
+    console.log(tree[previous?.id]);
+    console.log(current?.id);
     if (
       currentTree?.save === true &&
       currentTree?.last === true &&
       tree[previous?.id]?.ask?.save === current?.id
     ) {
-      return Response.ok(req, res, "saved");
+      return {'saved': true};
     }
-
-    return Response.badRequest(req, res, "You're previous node is not supposed to be here");
   };
 
   #checkPrevious = ({current, previous, tree}) => {
@@ -89,6 +82,10 @@ class ChatbotController extends Controller {
     }
 
     const previousNode = tree[previous.id];
+    if (previousNode.choices === undefined) {
+      return;
+    }
+
     const isCurrentNodeInPrevious = previousNode.choices.find((choice) => choice.id === current.id);
     if (!isCurrentNodeInPrevious) {
       throw new Error('Current node is not in previous node');
@@ -134,4 +131,4 @@ class ChatbotController extends Controller {
   };
 }
 
-export default new ChatbotController;
+export default ChatbotService;

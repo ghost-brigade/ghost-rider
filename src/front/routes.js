@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import {SECURITY_current} from './api/security';
 
 const routes = [
     // MENU
@@ -55,28 +54,23 @@ const FRONT_router = createRouter({
     history: createWebHistory(),
     routes
 });
+
 FRONT_router.beforeEach(async (to, from, next) => {
-    let currentUser = null;
-    const token = localStorage.getItem('token');
-    if (token) {
-        currentUser = await SECURITY_current();
-    }
-
-    if (to.meta?.roles) {
-        if (!currentUser) {
-            next('/login');
-        }
-        const matchingRoles = to.meta.roles.filter(role => currentUser.roles.includes(role));
-        if (!matchingRoles.length) {
-            next('/unauthorized');
-        }
-    }
-
-    if (!to.meta.allowAnonymous && (!token || !currentUser)) {
-        next('/login');
+  const token = localStorage.getItem("token");
+  if (to.matched.some((record) => !record.meta.allowAnonymous)) {
+    if (!token) {
+      next({
+        path: "/login",
+        query: {
+          redirect: to.fullPath
+        },
+      });
     } else {
-        next();
+      next();
     }
+  } else {
+    next();
+  }
 });
 
 export const getRoutes = () => {

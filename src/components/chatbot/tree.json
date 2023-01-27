@@ -16,8 +16,8 @@
     "message": "Quel est l'année de votre véhicule ?",
     "last": false,
     "ask": {
-      "next": "vehicle_maintenance_year",
-      "type": "date"
+      "next": "vehicle_maintenance_last_date",
+      "type": "number"
     }
   },
   "vehicle_maintenance_last_date": {
