@@ -77,6 +77,39 @@ class ChannelController extends Controller {
     }
   };
 
+  connectConseiller = async (req, res) => {
+    if (!req.params.id) {
+      return Response.badRequest(req, res, "Missing channel id");
+    }
+
+    const currentUser = req.user;
+    if (!currentUser) {
+      return Response.notFound(req, res, 'Not connected');
+    }
+
+    const conseillerId = parseInt(req.params.id);
+    const currentUserId = currentUser.id;
+
+    // search when channel.users contains currentUser.id and conseillerId
+    // limit = 2
+    const channels = await this.repository.findAll({
+      where: {
+        users: {
+          hasEvery: [currentUserId, conseillerId]
+        },
+        limit: 2
+      }
+    });
+
+    console.log('matching channels:');
+    console.log(channels);
+    console.log(channels.users);
+
+    if (channels.length) {
+      return Response.ok(req, res, channels[0]);
+    }
+  };
+
   /**
    * Update a channel
    * @param req

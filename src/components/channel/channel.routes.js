@@ -22,6 +22,13 @@ export default {
     controller: ChannelController.create,
     roles: [AuthentificationMiddleware],
   },
+  'channel_connect_conseiller': {
+    path: slug + '/conseiller/:id',
+    method: 'get',
+    controller: ChannelController.connectConseiller,
+    roles: [],
+    middlewares: [AuthentificationMiddleware]
+  },
   'channel_put_item': {
     path: slug + '/:id',
     method: 'put',
