@@ -19,8 +19,8 @@ class AuthentificatorService {
 
     const user = await this.userRepository.findByEmail(email);
 
-    if (user === undefined) {
-      throw new Error("User with this email not found");
+    if (user === undefined || user === null) {
+      throw new Error("User not found");
     }
 
     const match = await this.passwordService.validate(password, user.password);

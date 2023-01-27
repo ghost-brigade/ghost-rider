@@ -59,6 +59,12 @@ const routes = [
       icon: "user",
       allowAnonymous: true,
     }},
+    {path: "/confirm-account/:token", component: () => import("./views/ConfirmAccount.vue"), meta: {
+      title: "Confirmation de compte",
+      menu: false,
+      icon: "user",
+      allowAnonymous: true,
+    }},
 ];
 
 const FRONT_router = createRouter({

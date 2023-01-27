@@ -10,7 +10,7 @@ const slug = "/";
 
 export default {
   'security_register_confirm': {
-    path: slug + 'register/confirm',
+    path: slug + 'register/confirm/:token',
     method: 'post',
     controller: RegisterController.confirm,
     roles: [],
