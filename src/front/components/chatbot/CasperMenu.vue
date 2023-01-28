@@ -98,7 +98,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <template v-if="currentUser.id">
+    <div v-if="currentUser.id" class="app-chatbot">
         <p>{{ current.message }}</p>
         <template v-if="current">
             <p>{{ current.text }}</p>
@@ -120,7 +120,7 @@ onMounted(() => {
                     </button>
                 </template>
                 <template v-else>
-                    <input :type="current.ask.type" v-model="current.ask.data" />
+                    <input :type="current.ask.type" v-model="current.ask.data" placeholder="Réponse"/>
                     <button @click="askCurrent">
                         Envoyer
                     </button>
@@ -131,7 +131,7 @@ onMounted(() => {
         <template v-if="finished">
             <button @click="restart">Effectuer une autre demande</button>
         </template>
-    </template>
+    </div>
 
     <template v-else>
         <p>Vous devez être connecté pour utiliser le chatbot.</p>

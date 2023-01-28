@@ -1,0 +1,82 @@
+.app-notifications_top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    z-index: 5000;
+
+    .app-notifications {
+        z-index: 5000;
+        padding: 0.5rem;
+
+        .app-notification {
+            display: flex;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            overflow: hidden;
+
+            .content {
+                flex: 1;
+                padding: 0.5rem;
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            .close {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.5rem;
+            }
+
+            &.neutral {
+                background-color: #4a4a4abb;
+                .close {
+                    background-color: #2826264a;
+                }
+            }
+            &.important {
+                background-color: #480707c0;
+                .close {
+                    background-color: #320303a1;
+                }
+            }
+            &.success {
+                background-color: #0d4d61c8;
+                .close {
+                    background-color: #0d4d6173;
+                }
+            }
+        }
+    }
+}
+
+.app-notifications_list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        p {
+            margin: 0;
+        }
+
+        &.neutral {
+            background-color: #f4f4f423;
+        }
+        &.important {
+            background-color: #ff939341;
+        }
+        &.success {
+            background-color: #93e6ff49;
+        }
+    }
+}

@@ -5,7 +5,6 @@ const PREFIX = 'chatbot:';
 
 const service = new ChatbotService();
 SocketService.io.on('connection', (socket) => {
-  console.log('Socket connected: ', socket.id);
   socket.on(`chatbot:ask`, async ({current, previous}) => {
     try {
       const chatbot_response = await service.chatbot(current, previous);

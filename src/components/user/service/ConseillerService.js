@@ -8,7 +8,6 @@ class ConseillerService {
         return;
     }
 
-    console.log(this.available);
     this.available.push(user);
  }
 

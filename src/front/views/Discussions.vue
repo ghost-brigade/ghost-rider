@@ -15,7 +15,6 @@ onMounted(async () => {
 })
 
 const updateDiscussions = async (newDiscussion) => {
-  console.log(newDiscussion);
   discussions.value = [...discussions, newDiscussion]; //to fix
 }
 

@@ -26,7 +26,9 @@ const selectedVehicule = data.vehicules.find(
                 <h3 class="m-0">{{ selectedVehicule.price }} €</h3>
             </div>
 
-            <button class="cta full-size mb-5">Contacter un conseiller</button>
+            <RouterLink to="/discussions">
+                <button class="cta full-size mb-5">Contacter un conseiller</button>
+            </RouterLink>
             
             <p>{{ selectedVehicule.description }}</p>
         </div>

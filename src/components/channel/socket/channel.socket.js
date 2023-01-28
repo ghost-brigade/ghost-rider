@@ -4,7 +4,6 @@ import ChannelService from "../service/channel.service.js";
 const PREFIX = 'channel:';
 
 SocketService.io.on('connection', (socket) => {
-  console.log('Socket connected: ', socket.id);
   socket.on(PREFIX + 'join', async (channelId) => {
     const channelService = new ChannelService(socket);
 

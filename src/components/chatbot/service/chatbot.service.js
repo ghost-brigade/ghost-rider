@@ -38,8 +38,6 @@ class ChatbotService {
       return currentTree;
     }
 
-    console.log(tree[previous?.id]);
-    console.log(current?.id);
     if (
       currentTree?.save === true &&
       currentTree?.last === true &&
