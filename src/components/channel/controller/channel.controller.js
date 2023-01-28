@@ -173,8 +173,9 @@ class ChannelController extends Controller {
     }
 
     try {
-      await this.repository.delete(id);
-      return Response.noContent(req, res);
+      return await this.repository.delete(id).then(() => {
+        return Response.noContent(req, res);
+      });
     } catch (e) {
       return Response.internalServerError(req, res, e.message);
     }
