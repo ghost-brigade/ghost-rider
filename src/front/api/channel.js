@@ -40,3 +40,22 @@ export const CHANNEL_post = async (data) => {
   })
   .then(data => data);
 };
+
+export const CHANNEL_delete = async (id) => {
+  try {
+    const deleted = await request("/channel/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }, false);
+
+    if (!deleted.ok) {
+      throw new Error("Error while deleting channel");
+    }
+
+    return;
+  } catch (error) {
+    throw new Error('Error while deleting channel');
+  }
+};

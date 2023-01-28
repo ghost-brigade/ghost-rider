@@ -32,7 +32,7 @@ const routes = [
         allowAnonymous: true,
     }},
     {path: "/discussion/:id", component: () => import("./views/Discussion.vue"), meta: {
-        title: "Discussion",
+        title: "discussion",
         menu: false,
         icon: "flag",
     }},
