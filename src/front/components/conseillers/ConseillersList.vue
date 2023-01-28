@@ -6,14 +6,13 @@ const { conseillers } = inject(CONSEILLERS_PROVIDER);
 </script>
 
 <template>
-    <template v-if="conseillers.length">
-        <p>Conseillers connectés</p>
-        <ul class="app_discussion-list">
-            <template v-for="conseiller in conseillers">
+    <p>Conseillers connectés</p>
+    <ul v-if="conseillers.length" class="app_discussion-list">
+        <template v-for="conseiller in conseillers">
             <RouterLink :to="`/conseiller/${conseiller.id}`">
                 <li>{{ conseiller.firstname }} {{ conseiller.lastname }}</li>
             </RouterLink>
         </template>
-      </ul>
-    </template>
+    </ul>
+    <p v-else>Aucun conseiller n'est actuellement disponible, veuillez vous tourner vers CASPER pour obtenir des informations. Merci.</p>
 </template>

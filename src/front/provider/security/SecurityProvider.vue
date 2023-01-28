@@ -40,7 +40,7 @@ onMounted(async () => {
     const token = localStorage.getItem('token');
     if (token) {
         const user = await SECURITY_current();
-        if (!user.id) {
+        if (!user || !user.id) {
             localStorage.removeItem('token');
             $router.push('/login');
             return;
