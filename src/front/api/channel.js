@@ -50,12 +50,14 @@ export const CHANNEL_delete = async (id) => {
       },
     }, false);
 
+    const response = await deleted.json();
+
     if (!deleted.ok) {
-      throw new Error("Error while deleting channel");
+      throw new Error(response.messages);
     }
 
-    return;
+    return deleted;
   } catch (error) {
-    throw new Error('Error while deleting channel');
+    throw new Error(error.message);
   }
 };
