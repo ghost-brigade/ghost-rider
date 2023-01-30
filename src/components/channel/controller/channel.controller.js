@@ -67,6 +67,10 @@ class ChannelController extends Controller {
       return Response.unprocessableEntity(req, res, "Limit must be a number");
     }
 
+    if (Guard.isGranted('ROLE_ADMIN', req.user) === false) {
+      return Response.unauthorized(req, res, "Vous n'avez pas les droits pour créer un channel");
+    }
+
     const {name, limit} = req.body;
 
     try {
@@ -182,4 +186,4 @@ class ChannelController extends Controller {
   };
 }
 
-export default new ChannelController;
+export default new ChannelController();
