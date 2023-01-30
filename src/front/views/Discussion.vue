@@ -11,6 +11,7 @@ import UsersProvider from '../provider/user/UsersProvider.vue';
 
 const channel = reactive([]);
 const messages = reactive([]);
+const error = reactive(null);
 
 // get id in url params
 const $route = useRoute();
@@ -45,12 +46,19 @@ CHANNEL_socket.on("connect", () => {
 CHANNEL_socket.on('message:new', (e) => {
   messages.unshift(e);
 });
+CHANNEL_socket.on('channel:leave:error', (err) => {
+  error.value = err.message;
+});
+CHANNEL_socket.on('channel:join:error', (err) => {
+  error.value = err.message;
+});
 </script>
 
 <template>
   <section class="app_padding-section">
     <div class="content app_discussion">
       <RouterLink :to="'/discussions'">Retour</RouterLink>
+      <p v-if="error">{{ error }}</p>
       <h1>{{ channel.name }}</h1>
 
       <UsersProvider>
