@@ -98,7 +98,66 @@ async function main() {
     }
   });
 
-  console.log({louis, anthony, maxime, karl, amin, yves, adrien});
+  const channel_trending = await prisma.channel.upsert({
+    where: {id: 1},
+    update: {},
+    create: {
+      name: 'Les dernières tendances en matière de moto',
+      limit: 10,
+    }
+  });
+
+  const channel_event = await prisma.channel.upsert({
+    where: {id: 2},
+    update: {},
+    create: {
+      name: 'Les événements de moto à ne pas manquer',
+      limit: 100,
+    }
+  });
+
+  const channel_security = await prisma.channel.upsert({
+    where: {id: 3},
+    update: {},
+    create: {
+      name: 'L\'importance de la sécurité en moto',
+      limit: 30,
+    }
+  });
+
+  const channel_tips = await prisma.channel.upsert({
+    where: {id: 4},
+    update: {},
+    create: {
+      name: 'Les astuces pour améliorer votre conduite en moto',
+      limit: 10,
+    }
+  });
+
+  const channel_best_track = await prisma.channel.upsert({
+    where: {id: 5},
+    update: {},
+    create: {
+      name: 'Les meilleurs circuits pour les motards',
+      limit: 5,
+    }
+  });
+
+  const message_1 = await prisma.message.upsert({
+    where: {id: 1},
+    update: {},
+    create: {
+      message: 'Hello, welcome to the channel!',
+      channel: {
+        connect: {id: channel_trending.id}
+      },
+      user: {
+        connect: {id: yves.id}
+      }
+    }
+  });
+
+  console.log({louis, anthony, maxime, karl, amin, yves, adrien, channel_trending, channel_event, channel_security, channel_tips, channel_best_track, message_1});
 }
 main()
   .then(async () => {
