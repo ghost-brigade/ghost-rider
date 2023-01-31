@@ -17,10 +17,17 @@ Copy .env.example to .env
 
 1. Clone the repository.
 2. Copy the `.env.example` file to `.env` and fill in the necessary values.
-   1. Copy the `.env.example` file to `.env.test`.
-4. Install dependencies by running `make init`.
+3. Install dependencies by running `make init`.
 4. Create a database and seed it by running `make db`.
 5. Start the application by running `make run`.
+
+Access to the **API** : http://localhost:5000
+
+Access to the **front** : http://localhost:5173
+
+***if you want to run tests :***
+1. Copy the `.env.example` file to `.env.test` and fill in the necessary values.
+2. Run `make test`.
 
 ## Default users
 
@@ -30,7 +37,7 @@ Copy .env.example to .env
 
 ## Public access
 
-The application is hosted at https://ghost-riders.com/ for public access.
+The application is hosted at https://ghost-riders.com/ (coming soon) for public access.
 
 ## Technologies Used
 
@@ -48,4 +55,4 @@ The application is hosted at https://ghost-riders.com/ for public access.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
