@@ -29,9 +29,9 @@ Access to the **front** : http://localhost:5173
 
 ## Default users
 
-* Administrateur : anthony@ghostrider.fr:admin
-* Vendeur : karl@esgi.fr:seller
-* Utilisateur : anthony@ghostrider.fr:user
+* Administrateur : anthony@ghostrider.fr / admin
+* Vendeur : karl@esgi.fr / seller
+* Utilisateur : amine@esgi.fr / user
 
 ## Public access
 
