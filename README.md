@@ -13,8 +13,6 @@ by [chatgpt](https://chat.openai.com/)
 
 ## How to use
 
-Copy .env.example to .env
-
 1. Clone the repository.
 2. Copy the `.env.example` file to `.env` and fill in the necessary values.
 3. Install dependencies by running `make init`.
