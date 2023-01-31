@@ -62,11 +62,11 @@ class ChannelController extends Controller {
    */
   create = async (req, res) => {
     if (req.body === undefined || req.body.name === undefined || req.body.limit === undefined) {
-      return Response.unprocessableEntity(req, res, "Missing parameters");
+      return Response.unprocessableEntity(req, res, "Parametre manquant");
     }
 
     if (Number.isInteger(req.body.limit) === false) {
-      return Response.unprocessableEntity(req, res, "Limit must be a number");
+      return Response.unprocessableEntity(req, res, "La limite doit être un nombre");
     }
 
     if (Guard.isGranted('ROLE_ADMIN', req.user) === false) {
@@ -85,12 +85,12 @@ class ChannelController extends Controller {
 
   connectConseiller = async (req, res) => {
     if (!req.params.id) {
-      return Response.badRequest(req, res, "Missing channel id");
+      return Response.badRequest(req, res, "Parametre manquant");
     }
 
     const currentUser = req.user;
     if (!currentUser) {
-      return Response.notFound(req, res, 'User is not connected');
+      return Response.notFound(req, res, 'Vous n\'êtes pas connecté');
     }
 
     const conseillerId = parseInt(req.params.id);
@@ -120,7 +120,7 @@ class ChannelController extends Controller {
    */
   update = async (req, res) => {
     if (!req.params.id) {
-      return Response.badRequest(req, res, "Missing channel id");
+      return Response.badRequest(req, res, "Parametre manquant");
     }
 
     if (Guard.isGranted('ROLE_ADMIN', req.user) === false) {
@@ -130,7 +130,7 @@ class ChannelController extends Controller {
     const id = parseInt(req.params.id);
 
     if (req.body === undefined) {
-      return Response.unprocessableEntity(req, res, "Body is missing");
+      return Response.unprocessableEntity(req, res, "Missing parameters");
     }
 
     if (req.body.name === undefined && req.body.limit === undefined) {
@@ -138,16 +138,16 @@ class ChannelController extends Controller {
     }
 
     if (req.body.name !== undefined && req.body.name.length === 0) {
-      return Response.unprocessableEntity(req, res, "Name is empty");
+      return Response.unprocessableEntity(req, res, "Le nom du channel ne peut pas être vide");
     }
 
     if (req.body.limit !== undefined && Number.isInteger(req.body.limit) === false) {
-      return Response.unprocessableEntity(req, res, "Limit must be a number");
+      return Response.unprocessableEntity(req, res, "La limite doit être un nombre");
     }
 
     const channel = await this.repository.find(id);
     if (channel === null) {
-      return Response.notFound(req, res, "Channel not found");
+      return Response.notFound(req, res, "Le channel n'existe pas");
     }
 
     try {

@@ -80,11 +80,11 @@ class ChannelService {
     //TODO security check if user has access to channel
 
     if (await this.isUserInChannel()) {
-      throw new Error('You are already in this channel');
+      throw new Error('Vous êtes déjà dans ce channel');
     }
 
     if (await this.isLimitReached()) {
-      throw new Error('Channel limit reached');
+      throw new Error('Le channel est complet');
     }
 
     await this.#socket.join(this.ROOM_PREFIX + this.#channel.id);
