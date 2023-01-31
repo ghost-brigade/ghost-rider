@@ -68,7 +68,7 @@ model Notification {
 
 model Message {
   id        Int      @id @default(autoincrement())
-  message   String   @db.VarChar(255)
+  message   String   @db.VarChar(500)
   channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
   channelId Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
