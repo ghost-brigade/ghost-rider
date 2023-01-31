@@ -24,6 +24,29 @@ const NOTIFICATIONS_socket = io(import.meta.env.VITE_WS_URL, {
 NOTIFICATIONS_socket.on('notification:receive', (notification) => {
     notifications.push(notification);
 });
+
+const eventSource = new EventSource(import.meta.env.VITE_API_URL + '/notifications/sse');
+
+eventSource.onopen = () => {
+  // OPEN SSE CONNECTION
+  // console.log('connection OPEN');
+};
+
+eventSource.addEventListener('open', () => {
+  // OPEN SSE CONNECTION
+});
+
+eventSource.addEventListener('message', (event) => {
+  // RECEIVE SSE MESSAGE
+  let notificationResponse = JSON.parse(event.data);
+  console.log(notificationResponse)
+  let notification = {
+    message: notificationResponse.event.data.message,
+    type: notificationResponse.event.data.type
+  }
+
+  notifications.push(notification);
+});
 </script>
 
 <template>

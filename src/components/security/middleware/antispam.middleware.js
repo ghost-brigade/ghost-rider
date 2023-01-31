@@ -18,7 +18,7 @@ const AntispamMiddleware = async (req, res, next) => {
     if (err instanceof BannedException) {
       return Response.unauthorized(req, res, err.message);
     }
-    return Response.internalServerError(req, res, "Internal server error", err);
+    return Response.internalServerError(req, res, "Une erreur interne est survenue");
   }
 };
 
