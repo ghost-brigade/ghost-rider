@@ -32,7 +32,7 @@ const create = async () => {
 }
 
 const authorized = ref(props.currentUser.id !== undefined
-    && props.currentUser.roles.includes('ROLE_USER'));
+    && props.currentUser.roles.includes('ROLE_ADMIN'));
 </script>
 
 <template>
