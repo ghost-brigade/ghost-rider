@@ -59,3 +59,17 @@ export const CHANNEL_delete = async (id) => {
     throw new Error('Error while deleting channel');
   }
 };
+
+export const CHANNEL_update = async ({id, name, limit}) => {
+  return await request("/channel/" + id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      limit,
+    })
+  })
+    .then(data => data);
+};
