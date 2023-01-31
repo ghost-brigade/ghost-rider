@@ -17,6 +17,7 @@ class ChannelController extends Controller {
    * @returns {Promise<*>}
    */
   findAll = async (req, res) => {
+
     const channels = await this.repository.findAll();
     return Response.ok(req, res, channels.map(channel => {
         delete channel.createdAt;
@@ -33,6 +34,7 @@ class ChannelController extends Controller {
    * @returns {Promise<*>}
    */
   find = async (req, res) => {
+
     if (!req.params.id) {
       return Response.badRequest(req, res, "Missing channel id");
     }
@@ -65,6 +67,10 @@ class ChannelController extends Controller {
 
     if (Number.isInteger(req.body.limit) === false) {
       return Response.unprocessableEntity(req, res, "Limit must be a number");
+    }
+
+    if (Guard.isGranted('ROLE_ADMIN', req.user) === false) {
+      return Response.unauthorized(req, res, "Vous n'avez pas les droits pour créer un channel");
     }
 
     const {name, limit} = req.body;
@@ -101,10 +107,6 @@ class ChannelController extends Controller {
       }
     });
 
-    console.log('matching channels:');
-    console.log(channels);
-    console.log(channels.users);
-
     if (channels.length) {
       return Response.ok(req, res, channels[0]);
     }
@@ -119,6 +121,10 @@ class ChannelController extends Controller {
   update = async (req, res) => {
     if (!req.params.id) {
       return Response.badRequest(req, res, "Missing channel id");
+    }
+
+    if (Guard.isGranted('ROLE_ADMIN', req.user) === false) {
+      return Response.unauthorized(req, res, "Vous n'avez pas les droits pour modifier un channel");
     }
 
     const id = parseInt(req.params.id);
@@ -189,4 +195,4 @@ class ChannelController extends Controller {
   };
 }
 
-export default new ChannelController;
+export default new ChannelController();

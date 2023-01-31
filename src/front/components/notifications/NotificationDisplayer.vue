@@ -21,7 +21,7 @@ watch(notifications, () => {
 
 const deleteNotification = (id) => {
     displayedNotifications.splice(
-        displayedNotifications.findIndex((notification) => notification.id === id), 
+        displayedNotifications.findIndex((notification) => notification.id === id),
         1
     );
 }
@@ -33,7 +33,8 @@ const deleteNotification = (id) => {
             <template v-for="displayedNotification in displayedNotifications" :key="displayedNotification.notificationId" >
                 <li class="app-notification" :class="displayedNotification.notification.type">
                     <div class="content">
-                        <p>Message de {{ displayedNotification.notification.user }} :</p>
+                        <!-- <p>Message de {{ displayedNotification.notification.user }} :</p>-->
+                        <p>Notification commercial</p>
                         <p>{{ displayedNotification.notification.message }}</p>
                     </div>
                     <div class="close">

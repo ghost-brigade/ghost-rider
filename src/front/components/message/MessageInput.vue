@@ -15,11 +15,13 @@ const formData = reactive({
 });
 
 const send = async () => {
+
     if (!formData.channelId || formData.message === '') {
         return;
     }
 
     MESSAGE_add(formData);
+    formData.message = '';
 }
 </script>
 

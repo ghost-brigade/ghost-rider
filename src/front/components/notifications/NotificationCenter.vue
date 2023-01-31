@@ -4,14 +4,22 @@ import { NOTIFICATIONS_PROVIDER } from '../../provider/notification/Notification
 import RoleChecker from '../security/RoleChecker.vue';
 
 const { notifications, sendNotification } = inject(NOTIFICATIONS_PROVIDER);
+import { NOTIFICATION_add } from '../../api/notification';
 
 const message = ref('');
 const type = ref('neutral');
 
 const submit = () => {
-    sendNotification({
-        'message': message.value,
-        'type': type.value,
+    // SOCKET
+    // sendNotification({
+    //     'message': message.value,
+    //     'type': type.value,
+    // });
+
+    // SSE
+    NOTIFICATION_add({
+      'message': message.value,
+      'type': type.value,
     });
 }
 </script>
