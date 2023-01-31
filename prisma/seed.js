@@ -53,7 +53,7 @@ async function main() {
       email: 'karl@esgi.fr',
       lastname: 'Karl',
       firstname: 'xxx',
-      password: await bcrypt.hash('user', await bcrypt.genSalt()),
+      password: await bcrypt.hash('seller', await bcrypt.genSalt()),
       isActive: true,
       roles: ['ROLE_SELLER']
     }
