@@ -7,7 +7,7 @@ const service = new ChatbotService();
 SocketService.io.on('connection', (socket) => {
   socket.on(`chatbot:ask`, async ({current, previous}) => {
     try {
-      const chatbot_response = await service.chatbot(current, previous);
+      const chatbot_response = await service.chatbot(current, previous, socket.user);
       socket.emit(`${PREFIX}answer`, chatbot_response);
     } catch (error) {
       socket.emit(`${PREFIX}error`, error);

@@ -8,7 +8,7 @@ class ChatbotService {
     this.repository = new MaintenanceRepository();
   }
 
-  chatbot = async (current, previous = null) => {
+  chatbot = async (current, previous = null, user) => {
     const treePath = path.join(dirname(fileURLToPath(import.meta.url)), '..', 'tree.json');
     let tree = fs.readFileSync(treePath);
     tree = JSON.parse(tree);
@@ -43,6 +43,13 @@ class ChatbotService {
       currentTree?.last === true &&
       tree[previous?.id]?.ask?.save === current?.id
     ) {
+
+      await this.repository.create({
+        type: previous.ask.appointment,
+        appointment: new Date(current.data),
+        userId: user.id,
+      });
+
       return currentTree;
     }
   };
