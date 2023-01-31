@@ -84,7 +84,7 @@ class ChannelController extends Controller {
 
     const currentUser = req.user;
     if (!currentUser) {
-      return Response.notFound(req, res, 'Not connected');
+      return Response.notFound(req, res, 'User is not connected');
     }
 
     const conseillerId = parseInt(req.params.id);
@@ -163,13 +163,20 @@ class ChannelController extends Controller {
       return Response.unprocessableEntity(req, res, "Missing channel id");
     }
 
-    //todo fix lenteur
+    const currentUser = req.user;
+    if (!currentUser) {
+      return Response.notFound(req, res, 'Utilisateur non connecté');
+    }
+
+    if (Guard.isGranted("ROLE_ADMIN", req.user) === false) {
+      return Response.forbidden(req, res, "Vous devez être administrateur pour supprimer un channel");
+    }
 
     const id = parseInt(req.params.id);
 
     const channel = await this.repository.find(id);
     if (channel === null) {
-      return Response.notFound(req, res, "Channel not found");
+      return Response.notFound(req, res, "Channel introuvable");
     }
 
     try {

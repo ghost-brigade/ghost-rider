@@ -8,7 +8,7 @@ import ConseillersList from '../components/conseillers/ConseillersList.vue';
 
 const discussions = reactive([]);
 const { currentUser } = inject(SECURITY_CURRENT_KEY);
-const messages = ref(null);
+const message = ref(null);
 
 onMounted(async () => {
     discussions.push(...await CHANNEL_get());
@@ -23,8 +23,12 @@ const handleDelete = async (id) => {
     discussions.splice(discussions.findIndex(discussion => discussion.id === id), 1);
     await CHANNEL_delete(id);
   } catch (err) {
-    messages.value = err.message;
+    message.value = err.message;
   }
+}
+
+const isAdmin = () => {
+  return currentUser.roles.includes('ROLE_ADMIN');
 }
 </script>
 
@@ -32,6 +36,7 @@ const handleDelete = async (id) => {
   <section class="app_padding-section">
     <div class="content">
       <h1>Discussions</h1>
+      <div v-if="message" class="text text-danger mt-2 mb-2">{{ message }}</div>
 
       <CreateChannel :currentUser="currentUser" v-model:discussions="discussions" @update:discussions="updateDiscussions" />
 
@@ -47,7 +52,7 @@ const handleDelete = async (id) => {
               <a :href="'/discussion/' + discussion.id">{{ discussion.name }}</a>
               <p>0/{{ discussion.limit }}</p>
             </span>
-            <button class="cta" @click="handleDelete(discussion.id)">X</button>
+            <button v-if="isAdmin()" class="cta" @click="handleDelete(discussion.id)">X</button>
           </li>
         </template>
       </ul>
