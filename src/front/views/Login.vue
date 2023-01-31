@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { reactive, inject, ref } from 'vue';
-import { SECURITY_login } from '../api/security.js';
+import {SECURITY_current, SECURITY_login} from '../api/security.js';
 import { SECURITY_CURRENT_KEY } from '../provider/security/SecurityUserProviderKeys';
 
 
@@ -27,7 +27,10 @@ const connect = async () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        setCurrentUser(data);
+
+        const user = await SECURITY_current();
+
+        setCurrentUser(user);
 
         if (redirectRoute) {
           router.push(redirectRoute);
