@@ -2,8 +2,6 @@ import express from "express";
 import cors from "cors";
 import * as Response from "./common/service/Http/Response.js";
 import RouterService from "./common/service/router/router.service.js";
-import {dirname} from "path";
-import * as path from "path";
 import NotificationEvent from "./components/notification/event/notification.event.js";
 
 const router = express.Router();
@@ -41,10 +39,6 @@ router.get('/notifications/sse', (req, res) => {
     console.log('client dropped me');
     res.end();
   });
-});
-
-router.get('/stream', function (req, res) {
-  res.sendFile(path.resolve(dirname(import.meta.url).replace('file://', ''), '..', 'sse.test.html'));
 });
 
 router.use('*', async (req, res) => {

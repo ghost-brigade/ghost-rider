@@ -16,7 +16,8 @@ class NotificationController extends Controller {
   * @returns {Promise<*>}
   */
   create = async (req, res) => {
-    if (req.body === undefined || req.body.user === undefined || req.body.message === undefined) {
+
+    if (req.body === undefined || req.body.message === undefined || req.body.type === undefined) {
       return Response.unprocessableEntity(req, res, req.body);
     }
 
@@ -24,6 +25,8 @@ class NotificationController extends Controller {
       const notification = await this.notificationRepository.create(req.user, req.body.message);
 
       // res.sse('notification', { message: 'Nouvelle notification' });
+
+      notification.type = req.body.type;
 
       notificationEvent.emit('create', {
         data: notification,
