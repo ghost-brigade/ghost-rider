@@ -17,7 +17,6 @@ class ChannelController extends Controller {
    * @returns {Promise<*>}
    */
   findAll = async (req, res) => {
-    console.log(req.user);
 
     const channels = await this.repository.findAll();
     return Response.ok(req, res, channels.map(channel => {
@@ -107,10 +106,6 @@ class ChannelController extends Controller {
         limit: 2
       }
     });
-
-    console.log('matching channels:');
-    console.log(channels);
-    console.log(channels.users);
 
     if (channels.length) {
       return Response.ok(req, res, channels[0]);
