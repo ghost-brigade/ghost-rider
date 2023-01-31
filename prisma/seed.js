@@ -52,27 +52,53 @@ async function main() {
     create: {
       email: 'karl@esgi.fr',
       lastname: 'Karl',
-      firstname: 'xxx',
+      firstname: 'Marques Bernardo',
       password: await bcrypt.hash('seller', await bcrypt.genSalt()),
       isActive: true,
       roles: ['ROLE_SELLER']
     }
   });
 
-  const amine = await prisma.user.upsert({
-    where: {email: 'amine@esgi.fr'},
+  const amin = await prisma.user.upsert({
+    where: {email: 'amin@esgi.fr'},
     update: {},
     create: {
-      email: 'amine@esgi.fr',
-      lastname: 'Amine',
-      firstname: 'xxx',
+      email: 'amin@esgi.fr',
+      lastname: 'Amin',
+      firstname: 'Nairi',
       password: await bcrypt.hash('user', await bcrypt.genSalt()),
       isActive: true,
       roles: ['ROLE_USER']
     }
   });
 
-  console.log({louis, anthony, maxime, karl, amine});
+  const yves = await prisma.user.upsert({
+    where: {email: 'yves@esgi.fr'},
+    update: {},
+    create: {
+      email: 'yves@esgi.fr',
+      lastname: 'Yves',
+      firstname: 'Skrzypczyk',
+      password: await bcrypt.hash('user', await bcrypt.genSalt()),
+      isActive: true,
+      roles: ['ROLE_USER']
+    }
+  });
+
+  const adrien = await prisma.user.upsert({
+    where: {email: 'adrien@esgi.fr'},
+    update: {},
+    create: {
+      email: 'adrien@esgi.fr',
+      lastname: 'Adrien',
+      firstname: 'Morin',
+      password: await bcrypt.hash('user', await bcrypt.genSalt()),
+      isActive: true,
+      roles: ['ROLE_USER']
+    }
+  });
+
+  console.log({louis, anthony, maxime, karl, amin, yves, adrien});
 }
 main()
   .then(async () => {
