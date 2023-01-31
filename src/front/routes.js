@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import {SECURITY_current} from './api/security';
 
 const routes = [
     // MENU
@@ -33,9 +32,14 @@ const routes = [
         allowAnonymous: true,
     }},
     {path: "/discussion/:id", component: () => import("./views/Discussion.vue"), meta: {
-        title: "Discussion",
+        title: "discussion",
         menu: false,
         icon: "flag",
+    }},
+    {path: "/conseiller/:id", component: () => import("./views/Conseiller.vue"), meta: {
+        title: "Conseiller",
+        menu: false,
+        icon: "user",
     }},
     {path: "/unauthorized", component: () => import("./views/errors/Unauthorized.vue"), meta: {
         title: "Unauthorized",
@@ -49,34 +53,53 @@ const routes = [
         icon: "user",
         allowAnonymous: true,
     }},
+    {path: "/register", component: () => import("./views/Register.vue"), meta: {
+      title: "Inscription",
+      menu: false,
+      icon: "user",
+      allowAnonymous: true,
+    }},
+    {path: "/confirm-account/:token", component: () => import("./views/ConfirmAccount.vue"), meta: {
+      title: "Confirmation de compte",
+      menu: false,
+      icon: "user",
+      allowAnonymous: true,
+    }},
+    {path: "/forgot-password", component: () => import("./views/ForgotPassword.vue"), meta: {
+        title: "Mot de passe oublié",
+        menu: false,
+        icon: "user",
+        allowAnonymous: true,
+      }},
+    {path: "/reset-password/:token", component: () => import("./views/ResetPassword.vue"), meta: {
+        title: "Réinitialisation de mot de passe",
+        menu: false,
+        icon: "user",
+        allowAnonymous: true,
+      }},
 ];
 
 const FRONT_router = createRouter({
     history: createWebHistory(),
     routes
 });
+
 FRONT_router.beforeEach(async (to, from, next) => {
-    let currentUser = null;
-    const token = localStorage.getItem('token');
-    if (token) {
-        currentUser = await SECURITY_current();
-    }
-
-    if (to.meta?.roles) {
-        if (!currentUser) {
-            next('/login');
-        }
-        const matchingRoles = to.meta.roles.filter(role => currentUser.roles.includes(role));
-        if (!matchingRoles.length) {
-            next('/unauthorized');
-        }
-    }
-
-    if (!to.meta.allowAnonymous && (!token || !currentUser)) {
-        next('/login');
+  const token = localStorage.getItem("token");
+  if (to.matched.some((record) => !record.meta.allowAnonymous)) {
+    if (!token) {
+      next({
+        path: "/login",
+        query: {
+          redirect: to.fullPath
+        },
+      });
     } else {
-        next();
+      next();
     }
+  } else {
+    next();
+  }
 });
 
 export const getRoutes = () => {

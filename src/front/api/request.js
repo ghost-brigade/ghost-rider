@@ -1,4 +1,4 @@
-export const request = async (url, options) => {
+export const request = async (url, options, json = true) => {
     const token = localStorage.getItem('token');
     if (token) {
         options.headers = {
@@ -8,8 +8,8 @@ export const request = async (url, options) => {
     }
 
     try {
-        return await fetch(`http://localhost:5000${url}`, options)
-            .then(response => response.json());
+        return await fetch(import.meta.env.VITE_API_URL + url, options)
+            .then(response => json ? response.json() : response);
     } catch (error) {
         console.error(error);
     }

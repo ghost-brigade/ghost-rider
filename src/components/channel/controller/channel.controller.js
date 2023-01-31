@@ -77,6 +77,39 @@ class ChannelController extends Controller {
     }
   };
 
+  connectConseiller = async (req, res) => {
+    if (!req.params.id) {
+      return Response.badRequest(req, res, "Missing channel id");
+    }
+
+    const currentUser = req.user;
+    if (!currentUser) {
+      return Response.notFound(req, res, 'User is not connected');
+    }
+
+    const conseillerId = parseInt(req.params.id);
+    const currentUserId = currentUser.id;
+
+    // search when channel.users contains currentUser.id and conseillerId
+    // limit = 2
+    const channels = await this.repository.findAll({
+      where: {
+        users: {
+          hasEvery: [currentUserId, conseillerId]
+        },
+        limit: 2
+      }
+    });
+
+    console.log('matching channels:');
+    console.log(channels);
+    console.log(channels.users);
+
+    if (channels.length) {
+      return Response.ok(req, res, channels[0]);
+    }
+  };
+
   /**
    * Update a channel
    * @param req
@@ -130,18 +163,26 @@ class ChannelController extends Controller {
       return Response.unprocessableEntity(req, res, "Missing channel id");
     }
 
-    //todo fix lenteur
+    const currentUser = req.user;
+    if (!currentUser) {
+      return Response.notFound(req, res, 'Utilisateur non connecté');
+    }
+
+    if (Guard.isGranted("ROLE_ADMIN", req.user) === false) {
+      return Response.forbidden(req, res, "Vous devez être administrateur pour supprimer un channel");
+    }
 
     const id = parseInt(req.params.id);
 
     const channel = await this.repository.find(id);
     if (channel === null) {
-      return Response.notFound(req, res, "Channel not found");
+      return Response.notFound(req, res, "Channel introuvable");
     }
 
     try {
-      await this.repository.delete(id);
-      return Response.noContent(req, res);
+      return await this.repository.delete(id).then(() => {
+        return Response.noContent(req, res);
+      });
     } catch (e) {
       return Response.internalServerError(req, res, e.message);
     }

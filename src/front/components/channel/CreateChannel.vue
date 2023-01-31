@@ -1,7 +1,8 @@
 <script setup>
 import { ref, reactive } from 'vue';
-import { CHANNEL_post } from '../../api/channel.js';
+import { CHANNEL_post, CHANNEL_get } from '../../api/channel.js';
 
+const emits = defineEmits(['update:discussions']);
 const props = defineProps({
     currentUser: {
         type: Object,
@@ -20,16 +21,18 @@ const toggleOpen = () => {
     opened.value = !opened.value;
 }
 
-const create = () => {
-    if (formData.name === '') {
-        return;
-    }
+const create = async () => {
+  if (formData.name === '') {
+    return;
+  }
 
-    const newChannel = CHANNEL_post(formData);
+  const newChannel = await CHANNEL_post(formData);
+  opened.value = false;
+  emits('update:discussions', newChannel);
 }
 
 const authorized = ref(props.currentUser.id !== undefined
-    && props.currentUser.roles.includes('ROLE_ADMIN'));
+    && props.currentUser.roles.includes('ROLE_USER'));
 </script>
 
 <template>

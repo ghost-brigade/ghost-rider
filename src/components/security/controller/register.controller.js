@@ -5,12 +5,14 @@ import PasswordService from "../service/security/password.service.js";
 import emailEvent from "../../email/event/email.event.js";
 import Email from "../../email/email.js";
 import UserRegistrationTokenService from "../service/security/userRegistrationToken.service.js";
-import Url from "../../../common/service/Http/Url.js";
+//import Url from "../../../common/service/Http/Url.js";
+import config from "../../../../config.js";
 
 class UserControllerRegister extends Controller {
 
   constructor() {
     super();
+    config.env();
     this.userRepository = new UserRepository();
   }
 
@@ -55,7 +57,8 @@ class UserControllerRegister extends Controller {
         context: {
           lastname: newUser.lastname,
           app_name: "Ghost rider",
-          link: Url.getBaseUrl(req) + "/register/confirm/" + token
+          link: process.env.VITE_FRONT_URL + "/confirm-account/" + token
+            //Url.getBaseUrl(req) + "/register/confirm/" + token
         }})
       );
 
@@ -85,6 +88,8 @@ class UserControllerRegister extends Controller {
       await this.userRepository.update({id: user.id}, user);
       return Response.ok(req, res, "Account confirmed, please login to continue");
     }
+
+    return Response.unprocessableEntity(req, res, "Invalid token");
   };
 
   //TODO : test registration

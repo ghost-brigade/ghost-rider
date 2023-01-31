@@ -1,0 +1,21 @@
+.app-chatbot {
+    display: flex;
+    flex-direction: column;
+
+    input, select {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        padding: 0.4rem 1.4rem;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        padding: 0.4rem 1.4rem;
+        border: 0;
+        font-weight: bold;
+        background-color: $color_main;
+        color: $background_color;
+        font-size: 1.2rem;
+    }
+}

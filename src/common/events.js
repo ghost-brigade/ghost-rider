@@ -7,7 +7,13 @@ const events = {
 };
 
 const register = () => {
-  if (process.env.NODE_ENV === 'dev') {console.log("events registered");}
+  if (process.env.NODE_ENV === 'dev') {
+    console.log('====== EVENT DEBUG ======');
+    Object.entries(events).forEach(([name, event]) => {
+      console.log(`Registering ${name} : ${event.listenerCount('send')} listeners`);
+    });
+    console.log('======== ====== ========\n');
+  }
 };
 
 export default {
