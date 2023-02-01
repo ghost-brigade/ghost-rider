@@ -15,9 +15,10 @@ by [chatgpt](https://chat.openai.com/)
 
 1. Clone the repository.
 2. Copy the `.env.example` file to `.env` and fill in the necessary values.
-3. Install dependencies by running `make init`.
-4. Create a database and seed it by running `make db`.
-5. Start the application by running `make run`.
+3. Run `docker-compose up -d`
+4. Install dependencies by running `make init`.
+5. Create a database and seed it by running `make db`.
+6. Start the application by running `make run`.
 
 Access to the **API** : http://localhost:5000
 
